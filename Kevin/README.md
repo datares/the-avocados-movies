@@ -18,3 +18,7 @@ According to website source data,
 - Amazon Prime has 1981 TV Shows
  
  Then, data was found that plotted the number of shows, the average rotten tomato score, and the average IMDb score against each streaming service. 
+
+#### Struggles
+- How do I determine a top watch list if I have no metric to go by in terms of popularity (# of times watched, time on home page, etc.)?
+- Should we create an average score compiled from both the IMDb and the rotten tomatoes score? What happens also if there is one value missing from either of those?
