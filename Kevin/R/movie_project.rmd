@@ -1,0 +1,80 @@
+---
+title: "movie_project"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Gather the TV shows .csv file into a data frame
+```{r}
+library(tidyverse)
+tv_shows <- read.csv("tv_shows.csv", na.strings=c("","NA"))
+
+tv_shows <- tv_shows %>% select(-1, -type) %>% rename(Disney = Disney.) %>% 
+  group_by(row_number()) %>% mutate(Total_Stream_Platforms = sum(Netflix, Hulu, Prime.Video, Disney)) %>% ungroup() %>%
+  separate(Rotten.Tomatoes, sep ="%", into = c("Rotten.Tomatoes","Empty")) %>% select(-Empty, -`row_number()`)
+
+netflix_shows <- tv_shows %>% filter(Netflix == 1) %>% arrange(desc(IMDb))
+hulu_shows <- tv_shows %>% filter(Hulu == 1) %>% arrange(desc(IMDb))
+prime_shows <- tv_shows %>% filter(Prime.Video == 1) %>% arrange(desc(IMDb))
+disney_shows <- tv_shows %>% filter(Disney == 1) %>% arrange(desc(IMDb))
+```
+
+Gather the movies .csv file into a data frame
+```{r}
+movies <- read.csv("MoviesOnStreamingPlatforms_updated.csv",na.strings=c("","NA"))
+movies <- movies %>% select(Title:Disney.) %>% rename(Disney = Disney.) %>% 
+  group_by(row_number()) %>% mutate(Total_Stream_Platforms = sum(Netflix, Hulu, Prime.Video, Disney)) %>% ungroup() %>%
+  separate(Rotten.Tomatoes, sep ="%", into = c("Rotten.Tomatoes","Empty")) %>% select(-Empty, -`row_number()`)
+
+netflix_movies <- movies %>% filter(Netflix == 1) %>% arrange(desc(IMDb))
+hulu_movies <- movies %>% filter(Hulu == 1) %>% arrange(desc(IMDb))
+prime_movies <- movies %>% filter(Prime.Video == 1) %>% arrange(desc(IMDb))
+disney_movies <- movies %>% filter(Disney == 1) %>% arrange(desc(IMDb))
+```
+
+
+```{r}
+tv_platforms_summary <- tv_shows %>% group_by(Total_Stream_Platforms) %>% summarise(total = n())
+ggplot(total_platforms_summary, aes(x=factor(Total_Stream_Platforms), y=total, fill = factor(Total_Stream_Platforms))) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "Number of TV Shows Shown on Platforms", x = "Number of Platforms", y= "Movies", fill = "Number of Platforms") + theme(plot.title = element_text(hjust = 0.5))
+
+tv_service_summary <- tv_shows %>% pivot_longer(Netflix: Disney, names_to = "service", values_to = "count") %>%
+  group_by(service) %>% filter(count != 0) %>% summarise(numShows = sum(count), avg_rotten = mean(as.numeric(Rotten.Tomatoes), na.rm = TRUE), avg_IMDb = mean(IMDb, na.rm = TRUE))
+
+ggplot(tv_service_summary, aes(x=service, y=numShows, fill = service)) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "Number of Shows Per Streaming Service", x = "Streaming Service", y= "Number of Shows", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(tv_service_summary, aes(x=service, y=avg_rotten, fill = service)) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "TV Show Rotten Tomato Score Per Streaming Service", x = "Streaming Service", y= "Average Rotten Tomatoes Score", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
+  coord_cartesian(ylim = c(75,82.5))
+
+ggplot(tv_service_summary, aes(x=service, y=avg_IMDb, fill = service)) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "TV Show IMDb Score Per Streaming Service", x = "Streaming Service", y= "Average IMDb", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
+  coord_cartesian(ylim = c(6.9,7.2))
+```
+
+```{r}
+movie_platforms_summary <- movies %>% group_by(Total_Stream_Platforms) %>% summarise(total = n())
+ggplot(movie_platforms_summary, aes(x=factor(Total_Stream_Platforms), y=total, fill = factor(Total_Stream_Platforms))) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "Number of Movies Shown on Platforms", x = "Number of Platforms", y= "Movies", fill = "Number of Platforms") + theme(plot.title = element_text(hjust = 0.5))
+
+movie_service_summary <- movies %>% pivot_longer(Netflix: Disney, names_to = "service", values_to = "count") %>%
+  group_by(service) %>% filter(count != 0) %>% summarise(numMovies = sum(count), avg_rotten = mean(as.numeric(Rotten.Tomatoes), na.rm = TRUE), avg_IMDb = mean(IMDb, na.rm = TRUE))
+
+ggplot(movie_service_summary, aes(x=service, y=numMovies, fill = service)) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "Number of Movies Per Streaming Service", x = "Streaming Service", y= "Number of Movies", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(movie_service_summary, aes(x=service, y=avg_rotten, fill = service)) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "Movie Rotten Tomato Scores Per Streaming Service", x = "Streaming Service", y= "Average Rotten Tomatoes Score", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
+  coord_cartesian(ylim = c(64,67))
+
+ggplot(movie_service_summary, aes(x=service, y=avg_IMDb, fill = service)) +
+  geom_bar(stat = "identity", alpha=0.8) + labs(title = "Movie IMDb Score Per Streaming Service", x = "Streaming Service", y= "Average IMDb", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
+  coord_cartesian(ylim = c(5.5,6.5))
+
+```
