@@ -29,4 +29,5 @@ According to website source data,
 - I think it would be cute if we used the same color palette for all of our graphs, Netflix can have red scheme, Disney blue, Hulu greenish?, and PrimeVideo can be grey/dark green xD
 - Cross reference IMDb data for top movies and shows to see # of users, # of comments, # of reviews, etc. Look at the distribution of user interaction, etc. 
 Top Shows List: https://www.kaggle.com/ritesh2000/trending-tv-shows-on-netflix
+
 IMDb Movies Information: https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset
