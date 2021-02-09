@@ -25,7 +25,8 @@ According to website source data,
 - How do I determine a top watch list if I have no metric to go by in terms of popularity (# of times watched, time on home page, etc.)?
 - Should we create an average score compiled from both the IMDb and the rotten tomatoes score? What happens also if there is one value missing from either of those?
 
-- Look at IMDb data to see # of users, # of comments, # of reviews, etc. 
-
 #### Next steps:
 - I think it would be cute if we used the same color palette for all of our graphs, Netflix can have red scheme, Disney blue, Hulu greenish?, and PrimeVideo can be grey/dark green xD
+- Cross reference IMDb data for top movies and shows to see # of users, # of comments, # of reviews, etc. Look at the distribution of user interaction, etc. 
+Top Shows List: https://www.kaggle.com/ritesh2000/trending-tv-shows-on-netflix
+IMDb Movies Information: https://www.kaggle.com/carolzhangdc/imdb-5000-movie-dataset
