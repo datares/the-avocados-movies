@@ -1,11 +1,5 @@
-IMDb Rating and Rotten
+IMDb Rating and Rotten Tomatoes
 ================
-
-``` r
-knitr::opts_chunk$set(fig.path='imdb-rotten_files/figure-gfm')
-library(knitr)
-opts_chunk$set(dev="png")
-```
 
 ``` r
 getwd()
@@ -52,7 +46,7 @@ netflix <- table[table$Netflix == 1,]
 hist(netflix$IMDb)
 ```
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-3-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 
 ``` r
 mean(netflix$IMDb, na.rm = TRUE)
@@ -71,7 +65,7 @@ hulu <- table[table$Hulu == 1,]
 hist(hulu$IMDb)
 ```
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-4-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 mean(hulu$IMDb, na.rm = TRUE)
@@ -90,7 +84,7 @@ prime <- table[table$Prime.Video == 1,]
 hist(prime$IMDb)
 ```
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-5-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 ``` r
 mean(prime$IMDb, na.rm = TRUE)
@@ -109,7 +103,7 @@ disney <- table[table$Disney. == 1,]
 hist(disney$IMDb)
 ```
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-6-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 mean(disney$IMDb, na.rm = TRUE)
@@ -139,7 +133,7 @@ legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 
 fill = c("red", "blue", "green", "yellow"), inset = 0.05)
 ```
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-7-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 ``` r
 par(mfrow = c(1, 4))
@@ -149,7 +143,7 @@ boxplot(prime$IMDb)
 boxplot(prime$IMDb)
 ```
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-8-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 ``` r
 mode(netflix$IMDb)
@@ -178,7 +172,7 @@ p
 
     ## Warning: Removed 576 rows containing non-finite values (stat_boxplot).
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-12-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ``` r
 df_mean <- data.frame("Platform" = c("Netflix", "Hulu", "Prime", "Disney+"), "Mean" = c(mean(netflix$IMDb, na.rm = TRUE), mean(hulu$IMDb, na.rm = TRUE), mean(prime$IMDb, na.rm = TRUE), mean(disney$IMDb, na.rm = TRUE)))
@@ -188,4 +182,4 @@ p<-ggplot(data=df_mean, aes(x=Platform, y=Mean)) +
 p
 ```
 
-![](imdb-rotten_files/figure-gfmunnamed-chunk-13-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
