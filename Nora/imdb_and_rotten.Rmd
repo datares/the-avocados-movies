@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "IMDb Rating and Rotten Tomatoes"
 output: rmarkdown::github_document
 ---
 

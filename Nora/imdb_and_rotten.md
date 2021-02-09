@@ -1,4 +1,4 @@
-Untitled
+IMDb Rating and Rotten
 ================
 
 ``` r
