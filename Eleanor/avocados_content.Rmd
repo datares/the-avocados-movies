@@ -1,0 +1,38 @@
+---
+title: "amountofcontent"
+author: "Eleanor"
+date: "2/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+## R Markdown
+
+## read tv shows and movies csv files
+
+movies <- read.csv(file.choose())
+head(movies)
+
+tvshows <- read.csv(file.choose())
+head(tvshows)
+
+```
+
+```{r}
+
+## Display number of movies and shows on each streaming service
+
+netflixshows <- table(tvshows$Netflix == 1)
+hulushows <- table(tvshows$Hulu == 1)
+primeshows <- table(tvshows$Prime.Video == 1)
+disneyshows <- table(tvshows$Disney. == 1)
+
+netflixmovies <- table(movies$Netflix == 1)
+hulumovies <- table(movies$Hulu == 1)
+primemovies <- table(movies$Prime.Video == 1)
+disneymovies <- table(movies$Disney. == 1)
+```
