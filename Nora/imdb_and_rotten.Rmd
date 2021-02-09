@@ -1,11 +1,11 @@
 ---
 title: "Untitled"
-output: github_document
+output: rmarkdown::github_document
 ---
 
 
 ```{r global_options}
-knitr::opts_chunk$set(fig.path='Figs/')
+knitr::opts_chunk$set(fig.path='imdb-rotten_files/figure-gfm')
 ```
 
 ```{r}
