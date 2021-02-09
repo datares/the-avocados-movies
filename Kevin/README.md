@@ -24,3 +24,6 @@ According to website source data,
 #### Struggles
 - How do I determine a top watch list if I have no metric to go by in terms of popularity (# of times watched, time on home page, etc.)?
 - Should we create an average score compiled from both the IMDb and the rotten tomatoes score? What happens also if there is one value missing from either of those?
+
+#### Next steps:
+- I think it would be cute if we used the same color palette for all of our graphs, Netflix can have red scheme, Disney blue, Hulu greenish?, and PrimeVideo can be grey/dark green xD
