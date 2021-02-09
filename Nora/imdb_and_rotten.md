@@ -3,6 +3,8 @@ Untitled
 
 ``` r
 knitr::opts_chunk$set(fig.path='imdb-rotten_files/figure-gfm')
+library(knitr)
+opts_chunk$set(dev="png")
 ```
 
 ``` r
