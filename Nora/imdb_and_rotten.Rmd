@@ -12,7 +12,34 @@ getwd()
 
 ```{r}
 table <- read.csv("/Users/Luna/Desktop/Movie/the-avocados-movies/resources/MoviesOnStreamingPlatforms_updated.csv")
-head(table)
+#table$Rotten.Tomatoes <- as.numeric(table$Rotten.Tomatoes) * 100
+head(table, n = 20)
+head(table$Rotten.Tomatoes, n =20)
+head(as.character(table$Rotten.Tomatoes), n = 20)
+head(unlist(strsplit(as.character(table$Rotten.Tomatoes), split = "%")), n = 20)
+rotten_ch <- as.character(table$Rotten.Tomatoes)
+length(rotten_ch)
+rotten_ch <- strsplit(rotten_ch, split = "%")
+length(rotten_ch)
+rotten_ch[1:3]
+
+rotten_temp <- numeric(0)
+
+for (i in 1:16744) {
+  if (length(rotten_ch[i]) == 0){
+    rotten_temp <- c(rotten_temp, NA)
+  } else {
+    rotten_temp <- c(rotten_temp, rotten_ch[i])
+  }
+}
+
+rotten_ch <- rotten_temp
+length(rotten_temp)
+rotten_ch <- as.numeric(rotten_ch) / 100
+length(rotten_ch)
+
+table$Rotten.Tomatoes <- rotten_ch
+
 ```
 
 
@@ -21,6 +48,7 @@ netflix <- table[table$Netflix == 1,]
 hist(netflix$IMDb)
 mean(netflix$IMDb, na.rm = TRUE)
 mode(netflix$IMDb)
+
 ```
 
 
@@ -54,7 +82,7 @@ mode(disney$IMDb)
 
 ```{r}
 #par(mfrow = c(1, 4))
-hist(netflix$IMDb, main = 'netflix', xlab = 'IMDb',
+hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
      prob = FALSE, density = 20, col = "red",
      ylim = c(0, 2000))
 hist(hulu$IMDb, main = 'hulu', add = TRUE,
@@ -67,6 +95,24 @@ hist(disney$IMDb, main = 'disney', add = TRUE,
 legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
 fill = c("red", "blue", "green", "yellow"), inset = 0.05)
 ```
+
+```{r}
+# convert the rotten tomatoes from factor to numeric
+
+hist(netflix$Rotten.Tomatoes, main = 'Rotten Tomatoes', xlab = 'Rotten Tomatoes',
+     prob = FALSE, density = 20, col = "red",
+     ylim = c(0, 2000))
+hist(hulu$Rotten.Tomatoes, main = 'hulu', add = TRUE,
+     prob = FALSE, density = 20, col = "blue",)
+hist(prime$Rotten.Tomatoes, main = 'prime', add = TRUE,
+     prob = FALSE, density = 20, col = "green",)
+hist(disney$Rotten.Tomatoes, main = 'disney', add = TRUE,
+     prob = FALSE, density = 20, col = "yellow",)
+
+legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
+fill = c("red", "blue", "green", "yellow"), inset = 0.05)
+```
+
 
 
 ```{r}
@@ -97,9 +143,9 @@ imdb <- rbind(df_netflix, df_hulu, df_prime, df_disney)
 ```
 
 ```{r}
-p <- ggplot(imdb, aes(x=Platform, y=IMDb)) + 
+p1 <- ggplot(imdb, aes(x=Platform, y=IMDb)) + 
   geom_boxplot()
-p
+p1 <- p1 + ggtitle("IMDB of movies on four platforms")
 ```
 
 ```{r}
@@ -108,5 +154,201 @@ df_mean <- data.frame("Platform" = c("Netflix", "Hulu", "Prime", "Disney+"), "Me
 p<-ggplot(data=df_mean, aes(x=Platform, y=Mean)) +
   geom_bar(stat="identity") + geom_text(aes(label=Mean), vjust=-0.3, size=3.5)
 p
+```
+
+```{r}
+action <- factor(c('Action'))
+table$Genres[1]
+'Action' %in% as.character(table$Genres[1])
+temp <- as.character(table$Genres[1])
+temp <- unlist(strsplit(temp, split = ","))
+temp[1]
+any("Action" == temp)
+haha <- table[1,]
+
+```
+
+```{r}
+# action movies
+action_movies <- data.frame()
+for (i in 1:16744){
+  movie_to_test <- table[i,]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  if (any("Action" == genre)){
+    action_movies <- rbind(action_movies, movie_to_test)
+  }
+}
+
+
+action_netflix <- table[action_movies$Netflix == 1,]
+action_hulu <- table[action_movies$Hulu == 1,]
+action_prime <- table[action_movies$Prime.Video == 1,]
+action_disney <- table[action_movies$Disney. == 1,]
+
+df_action_imdb <- data.frame("Platform" = c(), "IMDb" = c())
+df_action_netflix <- data.frame("Platform" = "Netflix", "IMDb" = action_netflix$IMDb)
+df_action_hulu <- data.frame("Platform" = "Hulu", "IMDb" = action_hulu$IMDb)
+df_action_prime <- data.frame("Platform" = "Prime", "IMDb" = action_prime$IMDb)
+df_action_disney <- data.frame("Platform" = "Disney+", "IMDb" = action_disney$IMDb)
+df_action_imdb <- rbind(df_action_netflix, df_action_hulu, df_action_prime, df_action_disney)
+
+p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb)) + 
+  geom_boxplot()
+p2 <- p2 + ggtitle("IMDB of Action Movies")
+p2
+```
+
+```{r}
+# Sci-Fi movies
+scifi_movies <- data.frame()
+for (i in 1:16744){
+  movie_to_test <- table[i,]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  if (any("Sci-Fi" == genre)){
+    scifi_movies <- rbind(scifi_movies, movie_to_test)
+  }
+}
+
+
+scifi_netflix <- table[scifi_movies$Netflix == 1,]
+scifi_hulu <- table[scifi_movies$Hulu == 1,]
+scifi_prime <- table[scifi_movies$Prime.Video == 1,]
+scifi_disney <- table[scifi_movies$Disney. == 1,]
+
+df_scifi_imdb <- data.frame("Platform" = c(), "IMDb" = c())
+df_scifi_netflix <- data.frame("Platform" = "Netflix", "IMDb" = scifi_netflix$IMDb)
+df_scifi_hulu <- data.frame("Platform" = "Hulu", "IMDb" = scifi_hulu$IMDb)
+df_scifi_prime <- data.frame("Platform" = "Prime", "IMDb" = scifi_prime$IMDb)
+df_scifi_disney <- data.frame("Platform" = "Disney+", "IMDb" = scifi_disney$IMDb)
+df_scifi_imdb <- rbind(df_scifi_netflix, df_scifi_hulu, df_scifi_prime, df_scifi_disney)
+
+p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb)) + 
+  geom_boxplot()
+p3 <- p3 + ggtitle("IMDB of Sci-Fi Movies")
+p3
+```
+
+
+```{r}
+# Comedy movies
+comedy_movies <- data.frame()
+for (i in 1:16744){
+  movie_to_test <- table[i,]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  if (any("Comedy" == genre)){
+    comedy_movies <- rbind(scifi_movies, movie_to_test)
+  }
+}
+
+
+comedy_netflix <- table[comedy_movies$Netflix == 1,]
+comedy_hulu <- table[comedy_movies$Hulu == 1,]
+comedy_prime <- table[comedy_movies$Prime.Video == 1,]
+comedy_disney <- table[comedy_movies$Disney. == 1,]
+
+df_comedy_imdb <- data.frame("Platform" = c(), "IMDb" = c())
+df_comedy_netflix <- data.frame("Platform" = "Netflix", "IMDb" = comedy_netflix$IMDb)
+df_comedy_hulu <- data.frame("Platform" = "Hulu", "IMDb" = comedy_hulu$IMDb)
+df_comedy_prime <- data.frame("Platform" = "Prime", "IMDb" = comedy_prime$IMDb)
+df_comedy_disney <- data.frame("Platform" = "Disney+", "IMDb" = comedy_disney$IMDb)
+df_comedy_imdb <- rbind(df_comedy_netflix, df_comedy_hulu, df_comedy_prime, df_comedy_disney)
+
+p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb)) + 
+  geom_boxplot()
+p4 <- p4 + ggtitle("IMDB of Comedy Movies")
+p4
+```
+
+```{r}
+library(gridExtra)
+grid.arrange(p1, p2, p3, p4, nrow = 2, ncol = 2)
+```
+
+rotten now
+
+```{r}
+rotten <- data.frame("Platform" = c(), "Rotten" = c())
+df_netflix_rotten <- data.frame("Platform" = "Netflix", "Rotten" = netflix$Rotten.Tomatoes)
+df_hulu_rotten <- data.frame("Platform" = "Hulu", "Rotten" = hulu$Rotten.Tomatoes)
+df_prime_rotten <- data.frame("Platform" = "Prime", "Rotten" = prime$Rotten.Tomatoes)
+df_disney_rotten <- data.frame("Platform" = "Disney+", "Rotten" = disney$Rotten.Tomatoes)
+rotten <- rbind(df_netflix_rotten, df_hulu_rotten, df_prime_rotten, df_disney_rotten)
+
+r1 <- ggplot(rotten, aes(x=Platform, y=Rotten)) + 
+  geom_boxplot()
+r1 <- r1 + ggtitle("Rotten Tomatoes of movies on four platforms")
+r1
+```
+
+
+```{r}
+# action movies
+
+df_action_rotten <- data.frame("Platform" = c(), "Rotten" = c())
+
+df_action_netflix_rotten <- data.frame("Platform" = "Netflix", "Rotten" = action_netflix$Rotten.Tomatoes)
+df_action_hulu_rotten <- data.frame("Platform" = "Hulu", "Rotten" = action_hulu$Rotten.Tomatoes)
+df_action_prime_rotten <- data.frame("Platform" = "Prime", "Rotten" = action_prime$Rotten.Tomatoes)
+df_action_disney_rotten <- data.frame("Platform" = "Disney+", "Rotten" = action_disney$Rotten.Tomatoes)
+
+df_action_rotten <- rbind(df_action_netflix_rotten,
+                          df_action_hulu_rotten,
+                          df_action_prime_rotten,
+                          df_action_disney_rotten)
+
+r2 <- ggplot(df_action_rotten, aes(x=Platform, y=Rotten)) + 
+  geom_boxplot()
+r2 <- r2 + ggtitle("Rotten Tomatoes of Action Movies")
+```
+
+```{r}
+# sci-fi movies
+
+df_scifi_rotten <- data.frame("Platform" = c(), "Rotten" = c())
+
+df_scifi_netflix_rotten <- data.frame("Platform" = "Netflix", "Rotten" = scifi_netflix$Rotten.Tomatoes)
+df_scifi_hulu_rotten <- data.frame("Platform" = "Hulu", "Rotten" = scifi_hulu$Rotten.Tomatoes)
+df_scifi_prime_rotten <- data.frame("Platform" = "Prime", "Rotten" = scifi_prime$Rotten.Tomatoes)
+df_scifi_disney_rotten <- data.frame("Platform" = "Disney+", "Rotten" = scifi_disney$Rotten.Tomatoes)
+
+df_scifi_rotten <- rbind(df_scifi_netflix_rotten,
+                          df_scifi_hulu_rotten,
+                          df_scifi_prime_rotten,
+                          df_scifi_disney_rotten)
+
+r3 <- ggplot(df_scifi_rotten, aes(x=Platform, y=Rotten)) + 
+  geom_boxplot()
+r3 <- r3 + ggtitle("Rotten Tomatoes of Sci-Fi Movies")
+r3
+```
+
+
+```{r}
+# comedy movies
+
+df_comedy_rotten <- data.frame("Platform" = c(), "Rotten" = c())
+
+df_comedy_netflix_rotten <- data.frame("Platform" = "Netflix", "Rotten" = comedy_netflix$Rotten.Tomatoes)
+df_comedy_hulu_rotten <- data.frame("Platform" = "Hulu", "Rotten" = comedy_hulu$Rotten.Tomatoes)
+df_comedy_prime_rotten <- data.frame("Platform" = "Prime", "Rotten" = comedy_prime$Rotten.Tomatoes)
+df_comedy_disney_rotten <- data.frame("Platform" = "Disney+", "Rotten" = comedy_disney$Rotten.Tomatoes)
+
+df_comedy_rotten <- rbind(df_comedy_netflix_rotten,
+                          df_comedy_hulu_rotten,
+                          df_comedy_prime_rotten,
+                          df_comedy_disney_rotten)
+
+r4 <- ggplot(df_comedy_rotten, aes(x=Platform, y=Rotten)) + 
+  geom_boxplot()
+r4 <- r4 + ggtitle("Rotten Tomatoes of Comedy Movies")
+r4
+```
+
+
+```{r}
+grid.arrange(r1, r2, r3, r4, nrow = 2, ncol = 2)
 ```
 
