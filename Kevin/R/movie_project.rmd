@@ -28,6 +28,17 @@ tv_shows <- read.csv("tv_shows.csv", na.strings=c("","NA"))
 tv_shows <- tv_shows %>% select(-1, -type) %>% rename(Disney = Disney.) %>% 
   group_by(row_number()) %>% mutate(Total_Stream_Platforms = sum(Netflix, Hulu, Prime.Video, Disney)) %>% ungroup() %>%
   separate(Rotten.Tomatoes, sep ="%", into = c("Rotten.Tomatoes","Empty")) %>% select(-Empty, -`row_number()`)
+imdb_data <- read.csv("movie_metadata.csv")
+
+top_tv_shows_netflix <- read.csv("tvShows-netflix.csv")
+top_tv_shows_netflix <- top_tv_shows_netflix %>% filter(Netflix == 1) %>% arrange(desc(IMDB_Rating))
+
+top_tv_shows_prime <- read.csv("Prime_TV_Shows Data set.csv")
+top_tv_shows_prime <- top_tv_shows_prime %>% arrange(desc(IMDb.rating))
+
+top_tv_disney <- read.csv("disney_plus_shows.csv")
+top_tv_disney$imdb_votes <- as.numeric(gsub(",","",top_tv_disney$imdb_votes))
+top_tv_shows_disney <- top_tv_disney%>% select(title, type, year, imdb_rating, imdb_votes) %>% filter(type == "series" & imdb_rating != "N/A") %>% arrange(desc(imdb_votes))
 
 netflix_shows <- tv_shows %>% filter(Netflix == 1) %>% arrange(desc(IMDb))
 hulu_shows <- tv_shows %>% filter(Hulu == 1) %>% arrange(desc(IMDb))
@@ -42,10 +53,86 @@ movies <- movies %>% select(Title:Disney.) %>% rename(Disney = Disney.) %>%
   group_by(row_number()) %>% mutate(Total_Stream_Platforms = sum(Netflix, Hulu, Prime.Video, Disney)) %>% ungroup() %>%
   separate(Rotten.Tomatoes, sep ="%", into = c("Rotten.Tomatoes","Empty")) %>% select(-Empty, -`row_number()`)
 
+top_tv_disney <- read.csv("disney_plus_shows.csv")
+top_tv_disney$imdb_votes <- as.numeric(gsub(",","",top_tv_disney$imdb_votes))
+top_movies_disney <- top_tv_disney%>% select(Title = title, type, Year = year, IMDb = imdb_rating, imdb_votes) %>% filter(type == "movie" & IMDb != "N/A") %>% arrange(desc(imdb_votes))
+
 netflix_movies <- movies %>% filter(Netflix == 1) %>% arrange(desc(IMDb))
 hulu_movies <- movies %>% filter(Hulu == 1) %>% arrange(desc(IMDb))
 prime_movies <- movies %>% filter(Prime.Video == 1) %>% arrange(desc(IMDb))
 disney_movies <- movies %>% filter(Disney == 1) %>% arrange(desc(IMDb))
+
+disney_top_100_movies <- top_movies_disney %>% head(100) %>% select(-type) 
+disney_top_100_movies$Year <- as.numeric(disney_top_100_movies$Year)
+disney_top_100_movies$IMDb <- as.numeric(disney_top_100_movies$IMDb)
+
+
+```
+###Get Netflix Top 100 Movies
+```{r}
+netflix_top_100_movies <- netflix_movies %>% select(Title, Year, IMDb) %>% mutate(imdb_votes = as.numeric(NA))%>% filter(!grepl(pattern = "**", Title, fixed = TRUE))
+parse_data <- imdb_data %>% select(movie_title, num_voted_users) 
+for (i in c(1:nrow(netflix_top_100_movies)))
+{
+  movieTitle <- netflix_top_100_movies[[1]][[i]]
+  row <- parse_data %>% filter(grepl({movieTitle}, movie_title))
+  length <- nrow(row)
+  if (length != 0)
+  {
+    netflix_top_100_movies[[4]][i] = row[[2]][1]
+  }
+}
+netflix_top_100_movies <- netflix_top_100_movies %>% filter(!is.na(imdb_votes)) %>% arrange(desc(imdb_votes))
+```
+
+###Get Hulu Top 100 Movies
+```{r}
+hulu_top_100_movies <- hulu_movies %>% select(Title, Year, IMDb) %>% mutate(imdb_votes = as.numeric(NA))%>% filter(!grepl(pattern = "**", Title, fixed = TRUE))
+parse_data <- imdb_data %>% select(movie_title, num_voted_users) 
+for (i in c(1:nrow(hulu_top_100_movies)))
+{
+  movieTitle <- hulu_top_100_movies[[1]][[i]]
+  row <- parse_data %>% filter(grepl({movieTitle}, movie_title))
+  length <- nrow(row)
+  if (length != 0)
+  {
+    hulu_top_100_movies[[4]][i] = row[[2]][1]
+  }
+}
+hulu_top_100_movies <- hulu_top_100_movies %>% filter(!is.na(imdb_votes)) %>% arrange(desc(imdb_votes))
+```
+
+###Get Prime Video Top 100 Movies
+```{r}
+prime_top_100_movies <- prime_movies %>% select(Title, Year, IMDb) %>% mutate(imdb_votes = as.numeric(NA))%>% filter(!grepl(pattern = "**", Title, fixed = TRUE))
+parse_data <- imdb_data %>% select(movie_title, num_voted_users) 
+for (i in c(1:nrow(prime_top_100_movies)))
+{
+  movieTitle <- prime_top_100_movies[[1]][[i]]
+  row <- parse_data %>% filter(grepl({movieTitle}, movie_title))
+  length <- nrow(row)
+  if (length != 0)
+  {
+    prime_top_100_movies[[4]][i] = row[[2]][1]
+  }
+}
+prime_top_100_movies <- prime_top_100_movies %>% filter(!is.na(imdb_votes)) %>% arrange(desc(imdb_votes))
+```
+
+### Plotting top 100 movies shows across all streaming services
+```{r}
+disney_top_100_movies <- disney_top_100_movies %>% mutate(service = "Disney") %>% head(100)
+hulu_top_100_movies <- hulu_top_100_movies %>% mutate(service = "Hulu") %>% head(100)
+netflix_top_100_movies <- netflix_top_100_movies %>% mutate(service = "Netflix") %>% head(100)
+prime_top_100_movies <- prime_top_100_movies %>% mutate(service = "Amazon Prime") %>% head(100)
+
+total_top_100 <- bind_rows(disney_top_100_movies, hulu_top_100_movies, netflix_top_100_movies, prime_top_100_movies)
+
+ggplot(data = total_top_100, aes(x=service, y=imdb_votes, fill = service)) +
+  geom_boxplot() + labs(title = "IMDb Votes for the top 100 Movies Per Subscription Service", x = "Service", y = "IMDB Votes") + theme(plot.title = element_text(hjust = 0.5), legend.position = "none")
+
+ggplot(data = total_top_100, aes(x=service, y=IMDb, fill = service)) +
+  geom_boxplot() + labs(title = "IMDb Ratings for the top 100 Movies Per Subscription Service", x = "Service", y = "IMDB Rating") + theme(plot.title = element_text(hjust = 0.5), legend.position = "none")
 ```
 
 ### Plotting TV Summaries
@@ -71,6 +158,8 @@ ggplot(tv_service_summary, aes(x=service, y=avg_IMDb, fill = service)) +
   coord_cartesian(ylim = c(6.9,7.2)) + scale_fill_brewer(palette = "Purples") + theme( 
     panel.background = element_rect(fill = "white"))
 ```
+
+
 
 ### Plotting Movie Summaries
 ```{r Plotting Movie Summaries, warning = FALSE}
