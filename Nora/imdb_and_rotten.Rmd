@@ -534,10 +534,6 @@ hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 12.5*1000) 
     align = "center"
     )
 
-hc_lst <- list()
-for (i in seq_len(1)) hc_lst[[i]] <- hc
-htmltools::tagList(hc_lst)
-
 
 hc_2 <- df_total %>% 
   hchart(
@@ -550,8 +546,7 @@ hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 1) %>% hc_t
     align = "center"
     )
 
-hc_2_lst <- list()
-for (i in seq_len(1)) hc_lst[[i]] <- hc_2
-htmltools::tagList(hc_2_lst)
+lst <- list(hc, hc_2)
+htmltools::tagList(lst)
 ```
 
