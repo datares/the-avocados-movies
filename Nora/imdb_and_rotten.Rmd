@@ -523,10 +523,6 @@ options(highcharter.theme = hc_theme_smpl(tooltip = list(valueDecimals = 2)))
 
 
 ```{r}
-seq_len(1)
-```
-
-```{r}
 hc <- df_total %>% 
   hchart(
     'column', hcaes(x = Platform, y = Count, group = factor(IMDb, levels = c("Above 8.0", "6.0-8.0", "Below 6.0"))),
