@@ -2,6 +2,7 @@
 title: "IMDb and Rotten Tomatoes"
 output:
   html_document:
+    keep_md: true
     toc: true
     toc_float:
       collapsed: false
