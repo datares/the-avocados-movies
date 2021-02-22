@@ -12,6 +12,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+getwd()
+```
+
+
 ## Import Data
 
 ```{r}
