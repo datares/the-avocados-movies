@@ -532,6 +532,7 @@ hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 12.5*1000) 
     margin = 20,
     align = "center"
     )
+htmltools::tagList(hc)
 
 
 hc_2 <- df_total %>% 
@@ -544,7 +545,7 @@ hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 1) %>% hc_t
     margin = 20,
     align = "center"
     )
-hc
-hc_2
+
+htmltools::tagList(hc_2)
 ```
 
