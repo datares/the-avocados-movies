@@ -1,116 +1,20 @@
 ---
-title: "rating"
-author: "Nora Liu"
-date: "2/7/2021"
-output: html_document
+title: "IMDb and Rotten Tomatoes"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
-getwd()
-```
-
-
+## Import Data
 ```{r}
 table <- read.csv("/Users/Luna/Desktop/Movie/the-avocados-movies/resources/MoviesOnStreamingPlatforms_updated.csv")
-head(table)
+
+knitr::kable(head(table))
 ```
-
-
-```{r}
-netflix <- table[table$Netflix == 1,]
-hist(netflix$IMDb)
-mean(netflix$IMDb, na.rm = TRUE)
-mode(netflix$IMDb)
-```
-
-
-```{r}
-hulu <- table[table$Hulu == 1,]
-hist(hulu$IMDb)
-mean(hulu$IMDb, na.rm = TRUE)
-mode(hulu$IMDb)
-```
-
-
-
-
-```{r}
-prime <- table[table$Prime.Video == 1,]
-hist(prime$IMDb)
-mean(prime$IMDb, na.rm = TRUE)
-mode(prime$IMDb)
-```
-
-
-```{r}
-disney <- table[table$Disney. == 1,]
-hist(disney$IMDb)
-mean(disney$IMDb, na.rm = TRUE)
-mode(disney$IMDb)
-```
-
-
-
-
-```{r}
-#par(mfrow = c(1, 4))
-hist(netflix$IMDb, main = 'netflix', xlab = 'IMDb',
-     prob = FALSE, density = 20, col = "red",
-     ylim = c(0, 2000))
-hist(hulu$IMDb, main = 'hulu', add = TRUE,
-     prob = FALSE, density = 20, col = "blue",)
-hist(prime$IMDb, main = 'prime', add = TRUE,
-     prob = FALSE, density = 20, col = "green",)
-hist(disney$IMDb, main = 'disney', add = TRUE,
-     prob = FALSE, density = 20, col = "yellow",)
-
-legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
-fill = c("red", "blue", "green", "yellow"), inset = 0.05)
-```
-
-
-```{r}
-par(mfrow = c(1, 4))
-boxplot(netflix$IMDb)
-boxplot(hulu$IMDb)
-boxplot(prime$IMDb)
-boxplot(prime$IMDb)
-```
-
-```{r}
-mode(netflix$IMDb)
-```
-
-
-```{r}
-library(ggplot2)
-```
-
-
-```{r}
-imbd <- data.frame("Platform" = c(), "IMDb" = c())
-df_netflix <- data.frame("Platform" = "Netflix", "IMDb" = netflix$IMDb)
-df_hulu <- data.frame("Platform" = "Hulu", "IMDb" = hulu$IMDb)
-df_prime <- data.frame("Platform" = "Prime", "IMDb" = prime$IMDb)
-df_disney <- data.frame("Platform" = "Disney+", "IMDb" = disney$IMDb)
-imdb <- rbind(df_netflix, df_hulu, df_prime, df_disney)
-```
-
-```{r}
-p <- ggplot(imdb, aes(x=Platform, y=IMDb)) + 
-  geom_boxplot()
-p
-```
-
-```{r}
-df_mean <- data.frame("Platform" = c("Netflix", "Hulu", "Prime", "Disney+"), "Mean" = c(mean(netflix$IMDb, na.rm = TRUE), mean(hulu$IMDb, na.rm = TRUE), mean(prime$IMDb, na.rm = TRUE), mean(disney$IMDb, na.rm = TRUE)))
-
-p<-ggplot(data=df_mean, aes(x=Platform, y=Mean)) +
-  geom_bar(stat="identity") + geom_text(aes(label=Mean), vjust=-0.3, size=3.5)
-p
-```
-
