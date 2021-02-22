@@ -1,195 +1,37 @@
-IMDb Rating and Rotten Tomatoes
-================
+---
+title: "IMDb and Rotten Tomatoes"
+output:
+  html_document:
+    keep_md: true
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+---
 
-``` r
+
+
+
+```r
 getwd()
 ```
 
-    ## [1] "/Users/Luna/Desktop/Movie/the-avocados-movies/Nora"
+```
+## [1] "/Users/Luna/Desktop/Movie/the-avocados-movies/Nora"
+```
 
-``` r
+
+## Import Data
+
+
+```r
 table <- read.csv("/Users/Luna/Desktop/Movie/the-avocados-movies/resources/MoviesOnStreamingPlatforms_updated.csv")
-#table$Rotten.Tomatoes <- as.numeric(table$Rotten.Tomatoes) * 100
-head(table, n = 20)
-```
 
-    ##     X ID                              Title Year Age IMDb Rotten.Tomatoes
-    ## 1   0  1                          Inception 2010 13+  8.8             87%
-    ## 2   1  2                         The Matrix 1999 18+  8.7             87%
-    ## 3   2  3             Avengers: Infinity War 2018 13+  8.5             84%
-    ## 4   3  4                 Back to the Future 1985  7+  8.5             96%
-    ## 5   4  5     The Good, the Bad and the Ugly 1966 18+  8.8             97%
-    ## 6   5  6  Spider-Man: Into the Spider-Verse 2018  7+  8.4             97%
-    ## 7   6  7                        The Pianist 2002 18+  8.5             95%
-    ## 8   7  8                   Django Unchained 2012 18+  8.4             87%
-    ## 9   8  9            Raiders of the Lost Ark 1981  7+  8.4             95%
-    ## 10  9 10               Inglourious Basterds 2009 18+  8.3             89%
-    ## 11 10 11                        Taxi Driver 1976 18+  8.3             95%
-    ## 12 11 12                           3 Idiots 2009 13+  8.4            100%
-    ## 13 12 13                    Pan's Labyrinth 2006 18+  8.2             95%
-    ## 14 13 14                               Room 2015 18+  8.1             93%
-    ## 15 14 15    Monty Python and the Holy Grail 1975  7+  8.2             97%
-    ## 16 15 16       Once Upon a Time in the West 1968 13+  8.5             95%
-    ## 17 16 17 Indiana Jones and the Last Crusade 1989 13+  8.2             88%
-    ## 18 17 18                      Groundhog Day 1993  7+  8.0             96%
-    ## 19 18 19                  The King's Speech 2010 18+  8.0             95%
-    ## 20 19 20                                Her 2013 18+  8.0             95%
-    ##    Netflix Hulu Prime.Video Disney. Type
-    ## 1        1    0           0       0    0
-    ## 2        1    0           0       0    0
-    ## 3        1    0           0       0    0
-    ## 4        1    0           0       0    0
-    ## 5        1    0           1       0    0
-    ## 6        1    0           0       0    0
-    ## 7        1    0           1       0    0
-    ## 8        1    0           0       0    0
-    ## 9        1    0           0       0    0
-    ## 10       1    0           0       0    0
-    ## 11       1    0           0       0    0
-    ## 12       1    0           1       0    0
-    ## 13       1    0           0       0    0
-    ## 14       1    0           0       0    0
-    ## 15       1    0           0       0    0
-    ## 16       1    0           1       0    0
-    ## 17       1    0           0       0    0
-    ## 18       1    0           0       0    0
-    ## 19       1    0           0       0    0
-    ## 20       1    0           0       0    0
-    ##                                      Directors
-    ## 1                            Christopher Nolan
-    ## 2               Lana Wachowski,Lilly Wachowski
-    ## 3                      Anthony Russo,Joe Russo
-    ## 4                              Robert Zemeckis
-    ## 5                                 Sergio Leone
-    ## 6  Bob Persichetti,Peter Ramsey,Rodney Rothman
-    ## 7                               Roman Polanski
-    ## 8                            Quentin Tarantino
-    ## 9                             Steven Spielberg
-    ## 10                           Quentin Tarantino
-    ## 11                             Martin Scorsese
-    ## 12                             Rajkumar Hirani
-    ## 13                          Guillermo del Toro
-    ## 14                            Lenny Abrahamson
-    ## 15                   Terry Gilliam,Terry Jones
-    ## 16                                Sergio Leone
-    ## 17                            Steven Spielberg
-    ## 18                                Harold Ramis
-    ## 19                                  Tom Hooper
-    ## 20                                 Spike Jonze
-    ##                                      Genres
-    ## 1          Action,Adventure,Sci-Fi,Thriller
-    ## 2                             Action,Sci-Fi
-    ## 3                   Action,Adventure,Sci-Fi
-    ## 4                   Adventure,Comedy,Sci-Fi
-    ## 5                                   Western
-    ## 6  Animation,Action,Adventure,Family,Sci-Fi
-    ## 7                 Biography,Drama,Music,War
-    ## 8                             Drama,Western
-    ## 9                          Action,Adventure
-    ## 10                      Adventure,Drama,War
-    ## 11                              Crime,Drama
-    ## 12                             Comedy,Drama
-    ## 13                        Drama,Fantasy,War
-    ## 14                           Drama,Thriller
-    ## 15                 Adventure,Comedy,Fantasy
-    ## 16                                  Western
-    ## 17                         Action,Adventure
-    ## 18                   Comedy,Fantasy,Romance
-    ## 19                  Biography,Drama,History
-    ## 20                     Drama,Romance,Sci-Fi
-    ##                                        Country
-    ## 1                 United States,United Kingdom
-    ## 2                                United States
-    ## 3                                United States
-    ## 4                                United States
-    ## 5                     Italy,Spain,West Germany
-    ## 6                                United States
-    ## 7         United Kingdom,France,Poland,Germany
-    ## 8                                United States
-    ## 9                                United States
-    ## 10                       Germany,United States
-    ## 11                               United States
-    ## 12                                       India
-    ## 13                                Mexico,Spain
-    ## 14 Ireland,Canada,United Kingdom,United States
-    ## 15                              United Kingdom
-    ## 16                         Italy,United States
-    ## 17                               United States
-    ## 18                               United States
-    ## 19      United Kingdom,United States,Australia
-    ## 20                               United States
-    ##                                       Language Runtime
-    ## 1                      English,Japanese,French     148
-    ## 2                                      English     136
-    ## 3                                      English     149
-    ## 4                                      English     116
-    ## 5                                      Italian     161
-    ## 6                              English,Spanish     117
-    ## 7                       English,German,Russian     150
-    ## 8                English,German,French,Italian     165
-    ## 9  English,German,Hebrew,Spanish,Arabic,Nepali     115
-    ## 10               English,German,French,Italian     153
-    ## 11                             English,Spanish     114
-    ## 12                               Hindi,English     170
-    ## 13                                     Spanish     118
-    ## 14                                     English     118
-    ## 15                        English,French,Latin      91
-    ## 16                     Italian,English,Spanish     165
-    ## 17                 English,German,Greek,Arabic     127
-    ## 18                      English,French,Italian     101
-    ## 19                                     English     118
-    ## 20                                     English     126
-
-``` r
-head(table$Rotten.Tomatoes, n =20)
-```
-
-    ##  [1] 87%  87%  84%  96%  97%  97%  95%  87%  95%  89%  95%  100% 95%  93%  97% 
-    ## [16] 95%  88%  96%  95%  95% 
-    ## 100 Levels:  10% 100% 11% 12% 13% 14% 15% 16% 17% 18% 19% 2% 20% 21% 22% ... 99%
-
-``` r
-head(as.character(table$Rotten.Tomatoes), n = 20)
-```
-
-    ##  [1] "87%"  "87%"  "84%"  "96%"  "97%"  "97%"  "95%"  "87%"  "95%"  "89%" 
-    ## [11] "95%"  "100%" "95%"  "93%"  "97%"  "95%"  "88%"  "96%"  "95%"  "95%"
-
-``` r
-head(unlist(strsplit(as.character(table$Rotten.Tomatoes), split = "%")), n = 20)
-```
-
-    ##  [1] "87"  "87"  "84"  "96"  "97"  "97"  "95"  "87"  "95"  "89"  "95"  "100"
-    ## [13] "95"  "93"  "97"  "95"  "88"  "96"  "95"  "95"
-
-``` r
+# convert rotten tomato column into numerical data
 rotten_ch <- as.character(table$Rotten.Tomatoes)
-length(rotten_ch)
-```
 
-    ## [1] 16744
-
-``` r
 rotten_ch <- strsplit(rotten_ch, split = "%")
-length(rotten_ch)
-```
 
-    ## [1] 16744
-
-``` r
-rotten_ch[1:3]
-```
-
-    ## [[1]]
-    ## [1] "87"
-    ## 
-    ## [[2]]
-    ## [1] "87"
-    ## 
-    ## [[3]]
-    ## [1] "84"
-
-``` r
 rotten_temp <- numeric(0)
 
 for (i in 1:16744) {
@@ -201,156 +43,185 @@ for (i in 1:16744) {
 }
 
 rotten_ch <- rotten_temp
-length(rotten_temp)
-```
 
-    ## [1] 16744
-
-``` r
 rotten_ch <- as.numeric(rotten_ch) / 100
-length(rotten_ch)
-```
 
-    ## [1] 16744
 
-``` r
 table$Rotten.Tomatoes <- rotten_ch
+knitr::kable(head(table))
 ```
 
-``` r
+
+
+  X   ID  Title                                Year  Age    IMDb   Rotten.Tomatoes   Netflix   Hulu   Prime.Video   Disney.   Type  Directors                                     Genres                                     Country                        Language                   Runtime
+---  ---  ----------------------------------  -----  ----  -----  ----------------  --------  -----  ------------  --------  -----  --------------------------------------------  -----------------------------------------  -----------------------------  ------------------------  --------
+  0    1  Inception                            2010  13+     8.8              0.87         1      0             0         0      0  Christopher Nolan                             Action,Adventure,Sci-Fi,Thriller           United States,United Kingdom   English,Japanese,French        148
+  1    2  The Matrix                           1999  18+     8.7              0.87         1      0             0         0      0  Lana Wachowski,Lilly Wachowski                Action,Sci-Fi                              United States                  English                        136
+  2    3  Avengers: Infinity War               2018  13+     8.5              0.84         1      0             0         0      0  Anthony Russo,Joe Russo                       Action,Adventure,Sci-Fi                    United States                  English                        149
+  3    4  Back to the Future                   1985  7+      8.5              0.96         1      0             0         0      0  Robert Zemeckis                               Adventure,Comedy,Sci-Fi                    United States                  English                        116
+  4    5  The Good, the Bad and the Ugly       1966  18+     8.8              0.97         1      0             1         0      0  Sergio Leone                                  Western                                    Italy,Spain,West Germany       Italian                        161
+  5    6  Spider-Man: Into the Spider-Verse    2018  7+      8.4              0.97         1      0             0         0      0  Bob Persichetti,Peter Ramsey,Rodney Rothman   Animation,Action,Adventure,Family,Sci-Fi   United States                  English,Spanish                117
+
+## Histogram of IMDb Rating and Rotten Tomatoes
+
+```r
 netflix <- table[table$Netflix == 1,]
-hist(netflix$IMDb)
-```
-
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
-
-``` r
 mean(netflix$IMDb, na.rm = TRUE)
 ```
 
-    ## [1] 6.252963
-
-``` r
-mode(netflix$IMDb)
+```
+## [1] 6.252963
 ```
 
-    ## [1] "numeric"
-
-``` r
+```r
+# hulu
 hulu <- table[table$Hulu == 1,]
-hist(hulu$IMDb)
-```
-
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
-
-``` r
 mean(hulu$IMDb, na.rm = TRUE)
 ```
 
-    ## [1] 6.138117
-
-``` r
-mode(hulu$IMDb)
+```
+## [1] 6.138117
 ```
 
-    ## [1] "numeric"
-
-``` r
+```r
+# prime
 prime <- table[table$Prime.Video == 1,]
-hist(prime$IMDb)
-```
-
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
-
-``` r
 mean(prime$IMDb, na.rm = TRUE)
 ```
 
-    ## [1] 5.77091
-
-``` r
-mode(prime$IMDb)
+```
+## [1] 5.77091
 ```
 
-    ## [1] "numeric"
-
-``` r
+```r
+# disney
 disney <- table[table$Disney. == 1,]
-hist(disney$IMDb)
-```
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
-
-``` r
 mean(disney$IMDb, na.rm = TRUE)
 ```
 
-    ## [1] 6.441385
-
-``` r
-mode(disney$IMDb)
+```
+## [1] 6.441385
 ```
 
-    ## [1] "numeric"
+```r
+par(mfrow = c(2, 2))
+hist(netflix$IMDb)
+abline(v = mean(netflix$IMDb, na.rm = TRUE), lty = 2, col = "red")
+legend("topleft", c("Mean"), col = c("red"),
+lty = c(2), inset = 0.05 )
 
-``` r
-#par(mfrow = c(1, 4))
+hist(hulu$IMDb)
+abline(v = mean(hulu$IMDb, na.rm = TRUE), lty = 2, col = "red")
+legend("topleft", c("Mean"), col = c("red"),
+lty = c(2), inset = 0.05 )
+
+hist(prime$IMDb)
+abline(v = mean(prime$IMDb, na.rm = TRUE), lty = 2, col = "red")
+legend("topleft", c("Mean"), col = c("red"),
+lty = c(2), inset = 0.05 )
+
+hist(disney$IMDb)
+abline(v = mean(disney$IMDb, na.rm = TRUE), lty = 2, col = "red")
+legend("topleft", c("Mean"), col = c("red"),
+lty = c(2), inset = 0.05 )
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
+
+
+
+
+
+```r
 hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
      prob = FALSE, density = 20, col = "red",
-     ylim = c(0, 2000))
+     ylim = c(0, 2000), xlim=c(0, 10))
 hist(hulu$IMDb, main = 'hulu', add = TRUE,
      prob = FALSE, density = 20, col = "blue",)
 hist(prime$IMDb, main = 'prime', add = TRUE,
-     prob = FALSE, density = 20, col = "green",)
+     prob = FALSE, density = 20, col = "#9FE2BF",)
 hist(disney$IMDb, main = 'disney', add = TRUE,
      prob = FALSE, density = 20, col = "yellow",)
 
 legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
-fill = c("red", "blue", "green", "yellow"), inset = 0.05)
+fill = c("red", "blue", "#9FE2BF", "yellow"), inset = 0.05)
 ```
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
-``` r
-# convert the rotten tomatoes from factor to numeric
 
+```r
 hist(netflix$Rotten.Tomatoes, main = 'Rotten Tomatoes', xlab = 'Rotten Tomatoes',
      prob = FALSE, density = 20, col = "red",
-     ylim = c(0, 2000))
+     ylim = c(0, 800))
 hist(hulu$Rotten.Tomatoes, main = 'hulu', add = TRUE,
      prob = FALSE, density = 20, col = "blue",)
 hist(prime$Rotten.Tomatoes, main = 'prime', add = TRUE,
-     prob = FALSE, density = 20, col = "green",)
+     prob = FALSE, density = 20, col = "#9FE2BF",)
 hist(disney$Rotten.Tomatoes, main = 'disney', add = TRUE,
      prob = FALSE, density = 20, col = "yellow",)
 
 legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
-fill = c("red", "blue", "green", "yellow"), inset = 0.05)
+fill = c("red", "blue", "#9FE2BF", "yellow"), inset = 0.05)
 ```
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
-``` r
-par(mfrow = c(1, 4))
-boxplot(netflix$IMDb)
-boxplot(hulu$IMDb)
-boxplot(prime$IMDb)
-boxplot(prime$IMDb)
+
+## T-test on mean
+
+
+```r
+mean_imdb <- data.frame("Netflix" = mean(netflix$IMDb, na.rm = TRUE),
+                        "Hulu" = mean(hulu$IMDb, na.rm = TRUE),
+                        "Prime" = mean(prime$IMDb, na.rm = TRUE),
+                        "Disney+" = mean(disney$IMDb, na.rm = TRUE))
+mean_imdb
 ```
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
-
-``` r
-mode(netflix$IMDb)
+```
+##    Netflix     Hulu   Prime  Disney.
+## 1 6.252963 6.138117 5.77091 6.441385
 ```
 
-    ## [1] "numeric"
 
-``` r
+
+```r
+netflix_hulu <- t.test(netflix$IMDb, hulu$IMDb, alternative = "two.sided", var.equal = FALSE)
+netflix_prime <- t.test(netflix$IMDb, prime$IMDb, alternative = "two.sided", var.equal = FALSE)
+netflix_disney <- t.test(netflix$IMDb, disney$IMDb, alternative = "two.sided", var.equal = FALSE)
+
+hulu_prime <- t.test(hulu$IMDb, prime$IMDb, alternative = "two.sided", var.equal = FALSE)
+hulu_disney <- t.test(hulu$IMDb, disney$IMDb, alternative = "two.sided", var.equal = FALSE)
+
+prime_disney <- t.test(prime$IMDb, disney$IMDb, alternative = "two.sided", var.equal = FALSE)
+
+t_test <- data.frame("Netflix" = c(NA, netflix_hulu$p.value, netflix_prime$p.value, netflix_disney$p.value), "Hulu" = c(NA, NA, hulu_prime$p.value, hulu_disney$p.value), "Prime" = c(NA, NA, NA, prime_disney$p.value), "Disney+" = c(NA, NA, NA, NA))
+rownames(t_test) <- c("Netflix", "Hulu", "Prime", "Disney+")
+t_test
+```
+
+```
+##              Netflix         Hulu        Prime Disney.
+## Netflix           NA           NA           NA      NA
+## Hulu    6.733731e-03           NA           NA      NA
+## Prime   1.499854e-92 1.180677e-19           NA      NA
+## Disney+ 8.402601e-05 1.585763e-07 6.477789e-43      NA
+```
+
+
+## Boxplots of IMDb Rating
+
+
+```r
 library(ggplot2)
 ```
 
-``` r
+
+
+```r
+# create imdb dataset
 imbd <- data.frame("Platform" = c(), "IMDb" = c())
 df_netflix <- data.frame("Platform" = "Netflix", "IMDb" = netflix$IMDb)
 df_hulu <- data.frame("Platform" = "Hulu", "IMDb" = hulu$IMDb)
@@ -359,55 +230,16 @@ df_disney <- data.frame("Platform" = "Disney+", "IMDb" = disney$IMDb)
 imdb <- rbind(df_netflix, df_hulu, df_prime, df_disney)
 ```
 
-``` r
+
+```r
 p1 <- ggplot(imdb, aes(x=Platform, y=IMDb)) + 
   geom_boxplot()
 p1 <- p1 + ggtitle("IMDB of movies on four platforms")
 ```
 
-``` r
-df_mean <- data.frame("Platform" = c("Netflix", "Hulu", "Prime", "Disney+"), "Mean" = c(mean(netflix$IMDb, na.rm = TRUE), mean(hulu$IMDb, na.rm = TRUE), mean(prime$IMDb, na.rm = TRUE), mean(disney$IMDb, na.rm = TRUE)))
 
-p<-ggplot(data=df_mean, aes(x=Platform, y=Mean)) +
-  geom_bar(stat="identity") + geom_text(aes(label=Mean), vjust=-0.3, size=3.5)
-p
-```
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
-
-``` r
-action <- factor(c('Action'))
-table$Genres[1]
-```
-
-    ## [1] Action,Adventure,Sci-Fi,Thriller
-    ## 1910 Levels:  Action Action,Adventure ... Western,War
-
-``` r
-'Action' %in% as.character(table$Genres[1])
-```
-
-    ## [1] FALSE
-
-``` r
-temp <- as.character(table$Genres[1])
-temp <- unlist(strsplit(temp, split = ","))
-temp[1]
-```
-
-    ## [1] "Action"
-
-``` r
-any("Action" == temp)
-```
-
-    ## [1] TRUE
-
-``` r
-haha <- table[1,]
-```
-
-``` r
+```r
 # action movies
 action_movies <- data.frame()
 for (i in 1:16744){
@@ -435,14 +267,10 @@ df_action_imdb <- rbind(df_action_netflix, df_action_hulu, df_action_prime, df_a
 p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb)) + 
   geom_boxplot()
 p2 <- p2 + ggtitle("IMDB of Action Movies")
-p2
 ```
 
-    ## Warning: Removed 586 rows containing non-finite values (stat_boxplot).
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
-
-``` r
+```r
 # Sci-Fi movies
 scifi_movies <- data.frame()
 for (i in 1:16744){
@@ -470,14 +298,11 @@ df_scifi_imdb <- rbind(df_scifi_netflix, df_scifi_hulu, df_scifi_prime, df_scifi
 p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb)) + 
   geom_boxplot()
 p3 <- p3 + ggtitle("IMDB of Sci-Fi Movies")
-p3
 ```
 
-    ## Warning: Removed 608 rows containing non-finite values (stat_boxplot).
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
-``` r
+```r
 # Comedy movies
 comedy_movies <- data.frame()
 for (i in 1:16744){
@@ -505,31 +330,36 @@ df_comedy_imdb <- rbind(df_comedy_netflix, df_comedy_hulu, df_comedy_prime, df_c
 p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb)) + 
   geom_boxplot()
 p4 <- p4 + ggtitle("IMDB of Comedy Movies")
-p4
 ```
 
-    ## Warning: Removed 603 rows containing non-finite values (stat_boxplot).
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
-
-``` r
+```r
 library(gridExtra)
 grid.arrange(p1, p2, p3, p4, nrow = 2, ncol = 2)
 ```
 
-    ## Warning: Removed 576 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 576 rows containing non-finite values (stat_boxplot).
+```
 
-    ## Warning: Removed 586 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 586 rows containing non-finite values (stat_boxplot).
+```
 
-    ## Warning: Removed 608 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 608 rows containing non-finite values (stat_boxplot).
+```
 
-    ## Warning: Removed 603 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 603 rows containing non-finite values (stat_boxplot).
+```
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
-rotten now
+## Boxplots of Rotten Tomatoes
 
-``` r
+
+```r
 rotten <- data.frame("Platform" = c(), "Rotten" = c())
 df_netflix_rotten <- data.frame("Platform" = "Netflix", "Rotten" = netflix$Rotten.Tomatoes)
 df_hulu_rotten <- data.frame("Platform" = "Hulu", "Rotten" = hulu$Rotten.Tomatoes)
@@ -539,15 +369,12 @@ rotten <- rbind(df_netflix_rotten, df_hulu_rotten, df_prime_rotten, df_disney_ro
 
 r1 <- ggplot(rotten, aes(x=Platform, y=Rotten)) + 
   geom_boxplot()
-r1 <- r1 + ggtitle("Rotten Tomatoes of movies on four platforms")
-r1
+r1 <- r1 + ggtitle("Rotten Tomatoes on the four platforms")
 ```
 
-    ## Warning: Removed 11895 rows containing non-finite values (stat_boxplot).
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
-``` r
+```r
 # action movies
 
 df_action_rotten <- data.frame("Platform" = c(), "Rotten" = c())
@@ -565,14 +392,10 @@ df_action_rotten <- rbind(df_action_netflix_rotten,
 r2 <- ggplot(df_action_rotten, aes(x=Platform, y=Rotten)) + 
   geom_boxplot()
 r2 <- r2 + ggtitle("Rotten Tomatoes of Action Movies")
-r2
 ```
 
-    ## Warning: Removed 12150 rows containing non-finite values (stat_boxplot).
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
-
-``` r
+```r
 # sci-fi movies
 
 df_scifi_rotten <- data.frame("Platform" = c(), "Rotten" = c())
@@ -590,14 +413,11 @@ df_scifi_rotten <- rbind(df_scifi_netflix_rotten,
 r3 <- ggplot(df_scifi_rotten, aes(x=Platform, y=Rotten)) + 
   geom_boxplot()
 r3 <- r3 + ggtitle("Rotten Tomatoes of Sci-Fi Movies")
-r3
 ```
 
-    ## Warning: Removed 12011 rows containing non-finite values (stat_boxplot).
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
-``` r
+```r
 # comedy movies
 
 df_comedy_rotten <- data.frame("Platform" = c(), "Rotten" = c())
@@ -615,23 +435,305 @@ df_comedy_rotten <- rbind(df_comedy_netflix_rotten,
 r4 <- ggplot(df_comedy_rotten, aes(x=Platform, y=Rotten)) + 
   geom_boxplot()
 r4 <- r4 + ggtitle("Rotten Tomatoes of Comedy Movies")
-r4
 ```
 
-    ## Warning: Removed 12014 rows containing non-finite values (stat_boxplot).
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
-``` r
+```r
 grid.arrange(r1, r2, r3, r4, nrow = 2, ncol = 2)
 ```
 
-    ## Warning: Removed 11895 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 11895 rows containing non-finite values (stat_boxplot).
+```
 
-    ## Warning: Removed 12150 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 12150 rows containing non-finite values (stat_boxplot).
+```
 
-    ## Warning: Removed 12011 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 12011 rows containing non-finite values (stat_boxplot).
+```
 
-    ## Warning: Removed 12014 rows containing non-finite values (stat_boxplot).
+```
+## Warning: Removed 12014 rows containing non-finite values (stat_boxplot).
+```
 
-![](imdb_and_rotten_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+
+## Data on Movies above 8.0
+
+
+```r
+movie_above_eight <- table[(table$IMDb >= 8.0) & !is.na(table$IMDb), ]
+netflix_eight <- movie_above_eight[movie_above_eight$Netflix == 1,]
+hulu_eight <- movie_above_eight[movie_above_eight$Hulu == 1,]
+prime_eight <- movie_above_eight[movie_above_eight$Prime.Video == 1,]
+disney_eight <- movie_above_eight[movie_above_eight$Disney. == 1,]
+nrow(netflix_eight)
+```
+
+```
+## [1] 166
+```
+
+```r
+nrow(hulu_eight)
+```
+
+```
+## [1] 34
+```
+
+```r
+nrow(prime_eight)
+```
+
+```
+## [1] 397
+```
+
+```r
+nrow(disney_eight)
+```
+
+```
+## [1] 36
+```
+
+```r
+nrow(movie_above_eight)
+```
+
+```
+## [1] 607
+```
+
+```r
+knitr::kable(head(movie_above_eight))
+```
+
+
+
+  X   ID  Title                                Year  Age    IMDb   Rotten.Tomatoes   Netflix   Hulu   Prime.Video   Disney.   Type  Directors                                     Genres                                     Country                        Language                   Runtime
+---  ---  ----------------------------------  -----  ----  -----  ----------------  --------  -----  ------------  --------  -----  --------------------------------------------  -----------------------------------------  -----------------------------  ------------------------  --------
+  0    1  Inception                            2010  13+     8.8              0.87         1      0             0         0      0  Christopher Nolan                             Action,Adventure,Sci-Fi,Thriller           United States,United Kingdom   English,Japanese,French        148
+  1    2  The Matrix                           1999  18+     8.7              0.87         1      0             0         0      0  Lana Wachowski,Lilly Wachowski                Action,Sci-Fi                              United States                  English                        136
+  2    3  Avengers: Infinity War               2018  13+     8.5              0.84         1      0             0         0      0  Anthony Russo,Joe Russo                       Action,Adventure,Sci-Fi                    United States                  English                        149
+  3    4  Back to the Future                   1985  7+      8.5              0.96         1      0             0         0      0  Robert Zemeckis                               Adventure,Comedy,Sci-Fi                    United States                  English                        116
+  4    5  The Good, the Bad and the Ugly       1966  18+     8.8              0.97         1      0             1         0      0  Sergio Leone                                  Western                                    Italy,Spain,West Germany       Italian                        161
+  5    6  Spider-Man: Into the Spider-Verse    2018  7+      8.4              0.97         1      0             0         0      0  Bob Persichetti,Peter Ramsey,Rodney Rothman   Animation,Action,Adventure,Family,Sci-Fi   United States                  English,Spanish                117
+
+## Data on movies with imdb between 6 and 8
+
+
+```r
+movie_six_to_eight <- table[(table$IMDb >= 6.0) & (table$IMDb < 8.0) & !is.na(table$IMDb), ]
+netflix_six_to_eight <- movie_six_to_eight[movie_six_to_eight$Netflix == 1,]
+hulu_six_to_eight <- movie_six_to_eight[movie_six_to_eight$Hulu == 1,]
+prime_six_to_eight <- movie_six_to_eight[movie_six_to_eight$Prime.Video == 1,]
+disney_six_to_eight <- movie_six_to_eight[movie_six_to_eight$Disney. == 1,]
+
+knitr::kable(head(movie_six_to_eight))
+```
+
+       X   ID  Title                      Year  Age    IMDb   Rotten.Tomatoes   Netflix   Hulu   Prime.Video   Disney.   Type  Directors          Genres                          Country                                         Language                                              Runtime
+---  ---  ---  ------------------------  -----  ----  -----  ----------------  --------  -----  ------------  --------  -----  -----------------  ------------------------------  ----------------------------------------------  ---------------------------------------------------  --------
+22    21   22  The Social Network         2010  13+     7.7              0.96         1      0             0         0      0  David Fincher      Biography,Drama                 United States                                   English,French                                            120
+26    25   26  Ex Machina                 2015  18+     7.7              0.92         1      0             0         0      0  Alex Garland       Drama,Mystery,Sci-Fi,Thriller   United Kingdom,United States                    English                                                   108
+27    26   27  Silver Linings Playbook    2012  18+     7.7              0.92         1      0             0         0      0  David O. Russell   Comedy,Drama,Romance            United States                                   English                                                   122
+28    27   28  District 9                 2009  18+     7.9              0.90         1      0             0         0      0  Neill Blomkamp     Action,Sci-Fi,Thriller          South Africa,United States,New Zealand,Canada   English,Nyanja,Afrikaans,Zulu,Xhosa,Southern Sotho        112
+29    28   29  The Irishman               2019  18+     7.9              0.96         1      0             0         0      0  Martin Scorsese    Biography,Crime,Drama           United States                                   English,Italian,Latin,Spanish,German                      209
+30    29   30  Moon                       2009  18+     7.9              0.90         1      0             0         0      0  Duncan Jones       Drama,Mystery,Sci-Fi            United Kingdom,United States                    English,Spanish                                            97
+
+
+
+
+```r
+venn <- data.frame("Netflix" = c(),
+                   "Hulu" = c(),
+                   "Prime" = c(),
+                   "Disney+" = c(),
+                   "Count" = c())
+
+venn <- rbind(venn, c(0,0,0,0,0),
+              c(1,0,0,0,0), c(0,1,0,0,0), c(0,0,1,0,0), c(0,0,0,1,0),
+              c(1,1,0,0,0), c(1,0,1,0,0), c(1,0,0,1,0), c(0,1,1,0,0), c(0,1,0,1,0), c(0,0,1,1,0),
+              c(1,1,1,0,0), c(1,1,0,1,0), c(1,0,1,1,0), c(0,1,1,1,0),
+              c(1,1,1,1,0))
+colnames(venn) <- c("Netflix", "Hulu", "Prime", "Disney+", "Count")
+venn[1,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 0),])
+venn[2,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 0),])
+venn[3,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 0),])
+venn[4,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 0),])
+venn[5,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 1),])
+venn[6,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 0),])
+venn[7,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 0),])
+venn[8,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 1),])
+venn[9,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 0),])
+venn[10,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 1),])
+venn[11,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 1),])
+venn[12,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 0),])
+venn[13,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 0)
+                  & (movie_above_eight$Disney. == 1),])
+venn[14,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 0)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 1),])
+venn[15,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 0)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 1),])
+venn[16,5] <- nrow(movie_above_eight[(movie_above_eight$Netflix == 1)
+                  & (movie_above_eight$Hulu == 1)
+                  & (movie_above_eight$Prime.Video == 1)
+                  & (movie_above_eight$Disney. == 1),])
+venn <- venn[2:16,]
+#venn
+platforms <- c("Netflix", "Hulu", "Prime", "Disney+", "Netflix + Hulu", "Netflix + Prime", "Netflix + Disney+", "Hulu + Prime", "Hulu + Disney+", "Prime + Disney+", "Netflix + Hulu + Prime","Netflix + Hulu + Disney+", "Netflix + Prime + Disney+", "Hulu + Prime + Disney+", "All")
+venn <- cbind(platforms, venn)
+venn <- venn[1:14,]
+```
+
+## Pie Chart to show percent of good movies
+
+```r
+bp<- ggplot(venn[, c(1,6)], aes(x="", y=Count, fill=platforms))+
+geom_bar(width = 1, stat = "identity")
+pie <- bp + coord_polar("y", start=0)
+pie <- pie + ggtitle("Number of movies with IMDb above 8.0 on various platforms")
+pie
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+
+## Bar Plots on count and percentage
+
+
+```r
+df_total <- data.frame("Platform" = c("Netflix", "Netflix", "Netflix", "Hulu", "Hulu", "Hulu", "Prime", "Prime", "Prime", "Disney+", "Disney+", "Disney+"),
+                       "IMDb" = rep(c("Above 8.0", "6.0-8.0", "Below 6.0"), 4),
+                       "Count" = c(nrow(netflix_eight), nrow(netflix_six_to_eight), nrow(netflix)-nrow(netflix_eight)-nrow(netflix_six_to_eight),
+                                  nrow(hulu_eight), nrow(hulu_six_to_eight), nrow(hulu) - nrow(hulu_eight)-nrow(hulu_six_to_eight),
+                                  nrow(prime_eight), nrow(prime_six_to_eight) ,nrow(prime)-nrow(prime_eight)-nrow(prime_six_to_eight),
+                                  nrow(disney_eight), nrow(disney_six_to_eight) ,nrow(disney) - nrow(disney_eight)-nrow(disney_six_to_eight))
+)
+
+df_total <- cbind(df_total,
+                  "Percent" = c(nrow(netflix_eight)/nrow(netflix), nrow(netflix_six_to_eight)/nrow(netflix), 1-nrow(netflix_eight)/nrow(netflix)-nrow(netflix_six_to_eight)/nrow(netflix),
+                                        nrow(hulu_eight)/nrow(hulu), nrow(hulu_six_to_eight)/nrow(hulu), 1-nrow(hulu_eight)/nrow(hulu)-nrow(hulu_six_to_eight)/nrow(hulu),
+                                        nrow(prime_eight)/nrow(prime), nrow(prime_six_to_eight)/nrow(prime), 1-nrow(prime_eight)/nrow(prime)-nrow(prime_six_to_eight)/nrow(prime),
+                              nrow(disney_eight)/nrow(disney), nrow(disney_six_to_eight)/nrow(disney), 1-nrow(disney_eight)/nrow(disney)-nrow(disney_six_to_eight)/nrow(disney)))
+
+df_total$Percent <- round(df_total$Percent, digits = 3)
+# 
+# df_total <- cbind(df_total, "percentpos" = c(nrow(netflix)+700, nrow(netflix) - nrow(netflix_eight),
+#                                               nrow(hulu)+700, nrow(hulu) - nrow(hulu_eight),
+#                                               nrow(prime)+700, nrow(prime) - nrow(prime_eight),
+#                                               nrow(disney)+700, nrow(disney) - nrow(disney_eight) +100))
+
+percent <- ggplot(data=df_total, aes(x=factor(Platform, levels = c("Netflix", "Hulu", "Prime", "Disney+")), y=Count, fill=factor(IMDb, levels = c("Above 8.0", "6.0-8.0", "Below 6.0")))) +
+  geom_bar(stat="identity")+
+  scale_fill_brewer(palette="Paired")+
+  theme_minimal()
+# percent <- percent + geom_text(aes(y=percentpos, label=Percent), vjust=1.6, 
+#             color="black", size=3.5)
+percent <- percent + ggtitle("Count of movies of different ratings")
+percent <- percent + labs(fill='IMDb')
+percent
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+
+
+```r
+library(rlang)
+library(highcharter) 
+```
+
+```
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+```
+
+```r
+# Set highcharter options
+options(highcharter.theme = hc_theme_smpl(tooltip = list(valueDecimals = 2)))
+```
+
+
+```r
+hc <- df_total %>% 
+  hchart(
+    'column', hcaes(x = Platform, y = Count, group = factor(IMDb, levels = c("Above 8.0", "6.0-8.0", "Below 6.0"))),
+    stacking = "normal"
+    ) %>%
+hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 12.5*1000) %>% hc_title(
+    text = "Number of Movies by Platforms and IMDb",
+    margin = 20,
+    align = "center"
+    )
+
+
+hc_2 <- df_total %>% 
+  hchart(
+    'column', hcaes(x = Platform, y = Percent, group = factor(IMDb, levels = c("Above 8.0", "6.0-8.0", "Below 6.0"))),
+    stacking = "normal"
+    ) %>%
+hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 1) %>% hc_title(
+    text = "Percentage of Movies by Platforms and IMDb",
+    margin = 20,
+    align = "center"
+    )
+hc
+```
+
+<!--html_preserve--><div id="htmlwidget-e80b3553b8cbbf78e7db" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e80b3553b8cbbf78e7db">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Number of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Count"},"type":"linear","max":12500},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":166,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":34,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":397,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":36,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":2038,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":485,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":5541,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":362,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":1356,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":384,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":6416,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":166,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+
+```r
+hc_2
+```
+
+<!--html_preserve--><div id="htmlwidget-be6f56424df76cce29d3" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-be6f56424df76cce29d3">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Percentage of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Percent"},"type":"linear","max":1},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":0.047,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":0.038,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":0.032,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":0.064,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":0.572,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":0.537,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":0.449,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":0.642,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":0.381,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":0.425,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":0.519,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":0.294,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+
