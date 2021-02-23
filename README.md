@@ -19,16 +19,20 @@ Annie Li, @JL03-Yue <br />
 - Matplotlib, ggplot, highcharter
 ## Data Sources
 [Kaggle: Movies on Netflix, Prime Video, Hulu and Disney+](https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
+[Kaggle: Movie Industry](https://www.kaggle.com/danielgrijalvas/movies)
+[Kaggle: IMDb movies extensive dataset](https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset)
+[Kaggle: MovieLens 20M Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset?select=movie.csv)
+[Kaggle: Netflix Movies and TV Shows](https://www.kaggle.com/shivamb/netflix-shows)
 
 ## Ranking Categories
 
-# Category #1: Diversity
+### Category #1: Diversity
 
-# Category #2: Ratings
+### Category #2: Ratings
 
-# Category #3: Amount of Content
+### Category #3: Amount of Content
 
-# Category #4: Exclusive Content
+### Category #4: Exclusive Content
 
 ## Overall Results & Conclusion
 
