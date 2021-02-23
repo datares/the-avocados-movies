@@ -48,19 +48,39 @@ rotten_ch <- as.numeric(rotten_ch) / 100
 
 
 table$Rotten.Tomatoes <- rotten_ch
-knitr::kable(head(table))
+head(table)
 ```
 
-
-
-  X   ID  Title                                Year  Age    IMDb   Rotten.Tomatoes   Netflix   Hulu   Prime.Video   Disney.   Type  Directors                                     Genres                                     Country                        Language                   Runtime
----  ---  ----------------------------------  -----  ----  -----  ----------------  --------  -----  ------------  --------  -----  --------------------------------------------  -----------------------------------------  -----------------------------  ------------------------  --------
-  0    1  Inception                            2010  13+     8.8              0.87         1      0             0         0      0  Christopher Nolan                             Action,Adventure,Sci-Fi,Thriller           United States,United Kingdom   English,Japanese,French        148
-  1    2  The Matrix                           1999  18+     8.7              0.87         1      0             0         0      0  Lana Wachowski,Lilly Wachowski                Action,Sci-Fi                              United States                  English                        136
-  2    3  Avengers: Infinity War               2018  13+     8.5              0.84         1      0             0         0      0  Anthony Russo,Joe Russo                       Action,Adventure,Sci-Fi                    United States                  English                        149
-  3    4  Back to the Future                   1985  7+      8.5              0.96         1      0             0         0      0  Robert Zemeckis                               Adventure,Comedy,Sci-Fi                    United States                  English                        116
-  4    5  The Good, the Bad and the Ugly       1966  18+     8.8              0.97         1      0             1         0      0  Sergio Leone                                  Western                                    Italy,Spain,West Germany       Italian                        161
-  5    6  Spider-Man: Into the Spider-Verse    2018  7+      8.4              0.97         1      0             0         0      0  Bob Persichetti,Peter Ramsey,Rodney Rothman   Animation,Action,Adventure,Family,Sci-Fi   United States                  English,Spanish                117
+```
+##   X ID                             Title Year Age IMDb Rotten.Tomatoes Netflix
+## 1 0  1                         Inception 2010 13+  8.8            0.87       1
+## 2 1  2                        The Matrix 1999 18+  8.7            0.87       1
+## 3 2  3            Avengers: Infinity War 2018 13+  8.5            0.84       1
+## 4 3  4                Back to the Future 1985  7+  8.5            0.96       1
+## 5 4  5    The Good, the Bad and the Ugly 1966 18+  8.8            0.97       1
+## 6 5  6 Spider-Man: Into the Spider-Verse 2018  7+  8.4            0.97       1
+##   Hulu Prime.Video Disney. Type                                   Directors
+## 1    0           0       0    0                           Christopher Nolan
+## 2    0           0       0    0              Lana Wachowski,Lilly Wachowski
+## 3    0           0       0    0                     Anthony Russo,Joe Russo
+## 4    0           0       0    0                             Robert Zemeckis
+## 5    0           1       0    0                                Sergio Leone
+## 6    0           0       0    0 Bob Persichetti,Peter Ramsey,Rodney Rothman
+##                                     Genres                      Country
+## 1         Action,Adventure,Sci-Fi,Thriller United States,United Kingdom
+## 2                            Action,Sci-Fi                United States
+## 3                  Action,Adventure,Sci-Fi                United States
+## 4                  Adventure,Comedy,Sci-Fi                United States
+## 5                                  Western     Italy,Spain,West Germany
+## 6 Animation,Action,Adventure,Family,Sci-Fi                United States
+##                  Language Runtime
+## 1 English,Japanese,French     148
+## 2                 English     136
+## 3                 English     149
+## 4                 English     116
+## 5                 Italian     161
+## 6         English,Spanish     117
+```
 
 ## Histogram of IMDb Rating and Rotten Tomatoes
 
@@ -132,38 +152,38 @@ lty = c(2), inset = 0.05 )
 
 
 
-
 ```r
-hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
-     prob = FALSE, density = 20, col = "red",
+hist(prime$IMDb, main = 'IMDb Rating',
+     prob = FALSE, density = 20, col = "#FFAF12",
      ylim = c(0, 2000), xlim=c(0, 10))
+hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
+     prob = FALSE, density = 30, col = "#D0393E",
+     ylim = c(0, 2000), xlim=c(0, 10), add = TRUE)
 hist(hulu$IMDb, main = 'hulu', add = TRUE,
-     prob = FALSE, density = 20, col = "blue",)
-hist(prime$IMDb, main = 'prime', add = TRUE,
-     prob = FALSE, density = 20, col = "#9FE2BF",)
+     prob = FALSE, density = 40, col = "#4EC5A5",)
 hist(disney$IMDb, main = 'disney', add = TRUE,
-     prob = FALSE, density = 20, col = "yellow",)
+     prob = FALSE, density = 50, col = "#34558B",)
 
-legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
-fill = c("red", "blue", "#9FE2BF", "yellow"), inset = 0.05)
+legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), density = c(20, 30, 40, 50),
+fill = c("#FFAF12", "#D0393E", "#4EC5A5", "#34558B"), inset = 0.05)
 ```
 
 ![](imdb_and_rotten_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 
 ```r
+hist(prime$Rotten.Tomatoes, main = 'Rotten Tomatoes',
+     prob = FALSE, density = 20, col = "#FFAF12",ylim = c(0, 800))
 hist(netflix$Rotten.Tomatoes, main = 'Rotten Tomatoes', xlab = 'Rotten Tomatoes',
-     prob = FALSE, density = 20, col = "red",
-     ylim = c(0, 800))
+     prob = FALSE, density = 30, col = "#D0393E",
+     ylim = c(0, 800), add = TRUE)
 hist(hulu$Rotten.Tomatoes, main = 'hulu', add = TRUE,
-     prob = FALSE, density = 20, col = "blue",)
-hist(prime$Rotten.Tomatoes, main = 'prime', add = TRUE,
-     prob = FALSE, density = 20, col = "#9FE2BF",)
+     prob = FALSE, density = 40, col = "#4EC5A5",)
 hist(disney$Rotten.Tomatoes, main = 'disney', add = TRUE,
-     prob = FALSE, density = 20, col = "yellow",)
+     prob = FALSE, density = 50, col = "#34558B",)
 
-legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
-fill = c("red", "blue", "#9FE2BF", "yellow"), inset = 0.05)
+legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), density = c(20, 30, 40, 50),
+fill = c("#FFAF12", "#D0393E", "#4EC5A5", "#34558B"), inset = 0.05)
 ```
 
 ![](imdb_and_rotten_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
@@ -232,9 +252,10 @@ imdb <- rbind(df_netflix, df_hulu, df_prime, df_disney)
 
 
 ```r
-p1 <- ggplot(imdb, aes(x=Platform, y=IMDb)) + 
+p1 <- ggplot(imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p1 <- p1 + ggtitle("IMDB of movies on four platforms")
+p1 <- p1 + ggtitle("IMDb of movies on four platforms")
+p1 <- p1 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -264,9 +285,10 @@ df_action_prime <- data.frame("Platform" = "Prime", "IMDb" = action_prime$IMDb)
 df_action_disney <- data.frame("Platform" = "Disney+", "IMDb" = action_disney$IMDb)
 df_action_imdb <- rbind(df_action_netflix, df_action_hulu, df_action_prime, df_action_disney)
 
-p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb)) + 
+p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p2 <- p2 + ggtitle("IMDB of Action Movies")
+p2 <- p2 + ggtitle("IMDb of Action Movies")
+p2 <- p2 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -295,9 +317,10 @@ df_scifi_prime <- data.frame("Platform" = "Prime", "IMDb" = scifi_prime$IMDb)
 df_scifi_disney <- data.frame("Platform" = "Disney+", "IMDb" = scifi_disney$IMDb)
 df_scifi_imdb <- rbind(df_scifi_netflix, df_scifi_hulu, df_scifi_prime, df_scifi_disney)
 
-p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb)) + 
+p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p3 <- p3 + ggtitle("IMDB of Sci-Fi Movies")
+p3 <- p3 + ggtitle("IMDb of Sci-Fi")
+p3 <- p3 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -327,18 +350,22 @@ df_comedy_prime <- data.frame("Platform" = "Prime", "IMDb" = comedy_prime$IMDb)
 df_comedy_disney <- data.frame("Platform" = "Disney+", "IMDb" = comedy_disney$IMDb)
 df_comedy_imdb <- rbind(df_comedy_netflix, df_comedy_hulu, df_comedy_prime, df_comedy_disney)
 
-p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb)) + 
+p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p4 <- p4 + ggtitle("IMDB of Comedy Movies")
+p4 <- p4 + ggtitle("IMDb of Comedy")
+p4 <- p4 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
+
 
 
 ```r
-library(gridExtra)
-grid.arrange(p1, p2, p3, p4, nrow = 2, ncol = 2)
+library(ggpubr)
+ggarrange(p1, p2, p3, p4, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 ```
+## Warning: Removed 576 rows containing non-finite values (stat_boxplot).
+
 ## Warning: Removed 576 rows containing non-finite values (stat_boxplot).
 ```
 
@@ -367,9 +394,10 @@ df_prime_rotten <- data.frame("Platform" = "Prime", "Rotten" = prime$Rotten.Toma
 df_disney_rotten <- data.frame("Platform" = "Disney+", "Rotten" = disney$Rotten.Tomatoes)
 rotten <- rbind(df_netflix_rotten, df_hulu_rotten, df_prime_rotten, df_disney_rotten)
 
-r1 <- ggplot(rotten, aes(x=Platform, y=Rotten)) + 
+r1 <- ggplot(rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r1 <- r1 + ggtitle("Rotten Tomatoes on the four platforms")
+r1 <- r1 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -389,9 +417,10 @@ df_action_rotten <- rbind(df_action_netflix_rotten,
                           df_action_prime_rotten,
                           df_action_disney_rotten)
 
-r2 <- ggplot(df_action_rotten, aes(x=Platform, y=Rotten)) + 
+r2 <- ggplot(df_action_rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r2 <- r2 + ggtitle("Rotten Tomatoes of Action Movies")
+r2 <- r2 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -410,9 +439,10 @@ df_scifi_rotten <- rbind(df_scifi_netflix_rotten,
                           df_scifi_prime_rotten,
                           df_scifi_disney_rotten)
 
-r3 <- ggplot(df_scifi_rotten, aes(x=Platform, y=Rotten)) + 
+r3 <- ggplot(df_scifi_rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r3 <- r3 + ggtitle("Rotten Tomatoes of Sci-Fi Movies")
+r3 <- r3 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -432,18 +462,21 @@ df_comedy_rotten <- rbind(df_comedy_netflix_rotten,
                           df_comedy_prime_rotten,
                           df_comedy_disney_rotten)
 
-r4 <- ggplot(df_comedy_rotten, aes(x=Platform, y=Rotten)) + 
+r4 <- ggplot(df_comedy_rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r4 <- r4 + ggtitle("Rotten Tomatoes of Comedy Movies")
+r4 <- r4 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
 
 ```r
-grid.arrange(r1, r2, r3, r4, nrow = 2, ncol = 2)
+ggarrange(r1, r2, r3, r4, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 ```
+## Warning: Removed 11895 rows containing non-finite values (stat_boxplot).
+
 ## Warning: Removed 11895 rows containing non-finite values (stat_boxplot).
 ```
 
@@ -730,8 +763,188 @@ lst <- list(hc, hc_2)
 htmltools::tagList(lst)
 ```
 
-<!--html_preserve--><div id="htmlwidget-9ea4e2e6c9a8c7182e17" style="width:100%;height:500px;" class="highchart html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9ea4e2e6c9a8c7182e17">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Number of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Count"},"type":"linear","max":12500},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":166,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":34,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":397,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":36,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":2038,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":485,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":5541,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":362,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":1356,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":384,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":6416,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":166,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
-<div id="htmlwidget-c5835e2eea8f3169352f" style="width:100%;height:500px;" class="highchart html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c5835e2eea8f3169352f">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Percentage of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Percent"},"type":"linear","max":1},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":0.047,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":0.038,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":0.032,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":0.064,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":0.572,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":0.537,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":0.449,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":0.642,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":0.381,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":0.425,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":0.519,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":0.294,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-21f40ecd9965ae3ee456" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-21f40ecd9965ae3ee456">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Number of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Count"},"type":"linear","max":12500},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":166,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":34,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":397,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":36,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":2038,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":485,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":5541,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":362,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":1356,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":384,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":6416,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":166,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-c58b727c3bb1755512bd" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c58b727c3bb1755512bd">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Percentage of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Percent"},"type":"linear","max":1},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":0.047,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":0.038,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":0.032,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":0.064,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":0.572,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":0.537,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":0.449,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":0.642,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":0.381,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":0.425,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":0.519,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":0.294,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
+## Word Cloud of Genre of movie above 6.0
+
+
+```r
+movie_above_six <- table[(table$IMDb >= 6.0) & !is.na(table$IMDb), ]
+netflix_six <- movie_above_six[movie_above_six$Netflix == 1,]
+hulu_six <- movie_above_six[movie_above_six$Hulu == 1,]
+prime_six <- movie_above_six[movie_above_six$Prime.Video == 1,]
+disney_six <- movie_above_six[movie_above_six$Disney. == 1,]
+```
+
+### Netflix word cloud
+
+
+```r
+nrow(netflix_six)
+```
+
+```
+## [1] 2204
+```
+
+
+
+```r
+netflix_genre <- c()
+
+for (index in 1:nrow(netflix_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  netflix_genre <- c(netflix_genre, genre)
+}
+
+haha <- table(netflix_genre)
+netflix_genre_freq <- data.frame(haha)
+```
+
+
+
+```r
+library(wordcloud)
+```
+
+```
+## Loading required package: RColorBrewer
+```
+
+```r
+library("RColorBrewer")
+```
+
+
+```r
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Netflix", cex = 1.5, col = "black")
+wordcloud(words = netflix_genre_freq$netflix_genre, freq = netflix_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+
+### hulu word cloud
+
+
+
+```r
+nrow(hulu_six)
+```
+
+```
+## [1] 519
+```
+
+
+
+```r
+hulu_genre <- c()
+
+for (index in 1:nrow(hulu_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  hulu_genre <- c(hulu_genre, genre)
+}
+
+haha <- table(hulu_genre)
+hulu_genre_freq <- data.frame(haha)
+```
+
+
+```r
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Hulu", cex = 1.5, col = "black")
+wordcloud(words = hulu_genre_freq$hulu_genre, freq = hulu_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+
+### prime word cloud
+
+
+
+```r
+nrow(prime_six)
+```
+
+```
+## [1] 5938
+```
+
+
+
+```r
+prime_genre <- c()
+
+for (index in 1:nrow(prime_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  prime_genre <- c(prime_genre, genre)
+}
+
+haha <- table(prime_genre)
+prime_genre_freq <- data.frame(haha)
+```
+
+
+```r
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Prime", cex = 1.5, col = "black")
+wordcloud(words = prime_genre_freq$prime_genre, freq = prime_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+
+
+### Disney+ word cloud
+
+
+
+```r
+nrow(disney_six)
+```
+
+```
+## [1] 398
+```
+
+
+
+```r
+disney_genre <- c()
+
+for (index in 1:nrow(disney_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  disney_genre <- c(disney_genre, genre)
+}
+
+haha <- table(disney_genre)
+disney_genre_freq <- data.frame(haha)
+```
+
+
+```r
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Disney+", cex = 1.5, col = "black")
+wordcloud(words = disney_genre_freq$disney_genre, freq = disney_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-40-1.png)<!-- -->

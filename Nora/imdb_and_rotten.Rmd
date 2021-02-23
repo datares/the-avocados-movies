@@ -44,7 +44,7 @@ rotten_ch <- as.numeric(rotten_ch) / 100
 
 
 table$Rotten.Tomatoes <- rotten_ch
-knitr::kable(head(table))
+head(table)
 ```
 
 ## Histogram of IMDb Rating and Rotten Tomatoes
@@ -92,36 +92,35 @@ lty = c(2), inset = 0.05 )
 
 
 
-
 ```{r}
-hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
-     prob = FALSE, density = 20, col = "red",
+hist(prime$IMDb, main = 'IMDb Rating',
+     prob = FALSE, density = 20, col = "#FFAF12",
      ylim = c(0, 2000), xlim=c(0, 10))
+hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
+     prob = FALSE, density = 30, col = "#D0393E",
+     ylim = c(0, 2000), xlim=c(0, 10), add = TRUE)
 hist(hulu$IMDb, main = 'hulu', add = TRUE,
-     prob = FALSE, density = 20, col = "blue",)
-hist(prime$IMDb, main = 'prime', add = TRUE,
-     prob = FALSE, density = 20, col = "#9FE2BF",)
+     prob = FALSE, density = 40, col = "#4EC5A5",)
 hist(disney$IMDb, main = 'disney', add = TRUE,
-     prob = FALSE, density = 20, col = "yellow",)
+     prob = FALSE, density = 50, col = "#34558B",)
 
-legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
-fill = c("red", "blue", "#9FE2BF", "yellow"), inset = 0.05)
+legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), density = c(20, 30, 40, 50),
+fill = c("#FFAF12", "#D0393E", "#4EC5A5", "#34558B"), inset = 0.05)
 ```
 
 ```{r}
-
+hist(prime$Rotten.Tomatoes, main = 'Rotten Tomatoes',
+     prob = FALSE, density = 20, col = "#FFAF12",ylim = c(0, 800))
 hist(netflix$Rotten.Tomatoes, main = 'Rotten Tomatoes', xlab = 'Rotten Tomatoes',
-     prob = FALSE, density = 20, col = "red",
-     ylim = c(0, 800))
+     prob = FALSE, density = 30, col = "#D0393E",
+     ylim = c(0, 800), add = TRUE)
 hist(hulu$Rotten.Tomatoes, main = 'hulu', add = TRUE,
-     prob = FALSE, density = 20, col = "blue",)
-hist(prime$Rotten.Tomatoes, main = 'prime', add = TRUE,
-     prob = FALSE, density = 20, col = "#9FE2BF",)
+     prob = FALSE, density = 40, col = "#4EC5A5",)
 hist(disney$Rotten.Tomatoes, main = 'disney', add = TRUE,
-     prob = FALSE, density = 20, col = "yellow",)
+     prob = FALSE, density = 50, col = "#34558B",)
 
-legend("topleft", c("Netflix", "Hulu", 'Prime', 'Disney+'), density = c(20, 20, 20, 20),
-fill = c("red", "blue", "#9FE2BF", "yellow"), inset = 0.05)
+legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), density = c(20, 30, 40, 50),
+fill = c("#FFAF12", "#D0393E", "#4EC5A5", "#34558B"), inset = 0.05)
 ```
 
 
@@ -169,10 +168,11 @@ df_disney <- data.frame("Platform" = "Disney+", "IMDb" = disney$IMDb)
 imdb <- rbind(df_netflix, df_hulu, df_prime, df_disney)
 ```
 
-```{r}
-p1 <- ggplot(imdb, aes(x=Platform, y=IMDb)) + 
+```{r, message=FALSE}
+p1 <- ggplot(imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p1 <- p1 + ggtitle("IMDB of movies on four platforms")
+p1 <- p1 + ggtitle("IMDb of movies on four platforms")
+p1 <- p1 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -201,9 +201,10 @@ df_action_prime <- data.frame("Platform" = "Prime", "IMDb" = action_prime$IMDb)
 df_action_disney <- data.frame("Platform" = "Disney+", "IMDb" = action_disney$IMDb)
 df_action_imdb <- rbind(df_action_netflix, df_action_hulu, df_action_prime, df_action_disney)
 
-p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb)) + 
+p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p2 <- p2 + ggtitle("IMDB of Action Movies")
+p2 <- p2 + ggtitle("IMDb of Action Movies")
+p2 <- p2 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 ```{r}
@@ -231,9 +232,10 @@ df_scifi_prime <- data.frame("Platform" = "Prime", "IMDb" = scifi_prime$IMDb)
 df_scifi_disney <- data.frame("Platform" = "Disney+", "IMDb" = scifi_disney$IMDb)
 df_scifi_imdb <- rbind(df_scifi_netflix, df_scifi_hulu, df_scifi_prime, df_scifi_disney)
 
-p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb)) + 
+p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p3 <- p3 + ggtitle("IMDB of Sci-Fi Movies")
+p3 <- p3 + ggtitle("IMDb of Sci-Fi")
+p3 <- p3 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -262,14 +264,16 @@ df_comedy_prime <- data.frame("Platform" = "Prime", "IMDb" = comedy_prime$IMDb)
 df_comedy_disney <- data.frame("Platform" = "Disney+", "IMDb" = comedy_disney$IMDb)
 df_comedy_imdb <- rbind(df_comedy_netflix, df_comedy_hulu, df_comedy_prime, df_comedy_disney)
 
-p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb)) + 
+p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p4 <- p4 + ggtitle("IMDB of Comedy Movies")
+p4 <- p4 + ggtitle("IMDb of Comedy")
+p4 <- p4 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
-```{r}
-library(gridExtra)
-grid.arrange(p1, p2, p3, p4, nrow = 2, ncol = 2)
+
+```{r, message=FALSE}
+library(ggpubr)
+ggarrange(p1, p2, p3, p4, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 ## Boxplots of Rotten Tomatoes
@@ -282,9 +286,10 @@ df_prime_rotten <- data.frame("Platform" = "Prime", "Rotten" = prime$Rotten.Toma
 df_disney_rotten <- data.frame("Platform" = "Disney+", "Rotten" = disney$Rotten.Tomatoes)
 rotten <- rbind(df_netflix_rotten, df_hulu_rotten, df_prime_rotten, df_disney_rotten)
 
-r1 <- ggplot(rotten, aes(x=Platform, y=Rotten)) + 
+r1 <- ggplot(rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r1 <- r1 + ggtitle("Rotten Tomatoes on the four platforms")
+r1 <- r1 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -303,9 +308,10 @@ df_action_rotten <- rbind(df_action_netflix_rotten,
                           df_action_prime_rotten,
                           df_action_disney_rotten)
 
-r2 <- ggplot(df_action_rotten, aes(x=Platform, y=Rotten)) + 
+r2 <- ggplot(df_action_rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r2 <- r2 + ggtitle("Rotten Tomatoes of Action Movies")
+r2 <- r2 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 ```{r}
@@ -323,9 +329,10 @@ df_scifi_rotten <- rbind(df_scifi_netflix_rotten,
                           df_scifi_prime_rotten,
                           df_scifi_disney_rotten)
 
-r3 <- ggplot(df_scifi_rotten, aes(x=Platform, y=Rotten)) + 
+r3 <- ggplot(df_scifi_rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r3 <- r3 + ggtitle("Rotten Tomatoes of Sci-Fi Movies")
+r3 <- r3 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
@@ -344,14 +351,15 @@ df_comedy_rotten <- rbind(df_comedy_netflix_rotten,
                           df_comedy_prime_rotten,
                           df_comedy_disney_rotten)
 
-r4 <- ggplot(df_comedy_rotten, aes(x=Platform, y=Rotten)) + 
+r4 <- ggplot(df_comedy_rotten, aes(x=Platform, y=Rotten, fill = Platform)) + 
   geom_boxplot()
 r4 <- r4 + ggtitle("Rotten Tomatoes of Comedy Movies")
+r4 <- r4 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
 ```
 
 
-```{r}
-grid.arrange(r1, r2, r3, r4, nrow = 2, ncol = 2)
+```{r, message=FALSE}
+ggarrange(r1, r2, r3, r4, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 ```
 
 ## Data on Movies above 8.0
@@ -550,3 +558,138 @@ lst <- list(hc, hc_2)
 htmltools::tagList(lst)
 ```
 
+## Word Cloud of Genre of movie above 6.0
+
+```{r}
+movie_above_six <- table[(table$IMDb >= 6.0) & !is.na(table$IMDb), ]
+netflix_six <- movie_above_six[movie_above_six$Netflix == 1,]
+hulu_six <- movie_above_six[movie_above_six$Hulu == 1,]
+prime_six <- movie_above_six[movie_above_six$Prime.Video == 1,]
+disney_six <- movie_above_six[movie_above_six$Disney. == 1,]
+```
+
+### Netflix word cloud
+
+```{r}
+nrow(netflix_six)
+```
+
+
+```{r}
+netflix_genre <- c()
+
+for (index in 1:nrow(netflix_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  netflix_genre <- c(netflix_genre, genre)
+}
+
+haha <- table(netflix_genre)
+netflix_genre_freq <- data.frame(haha)
+```
+
+
+```{r}
+library(wordcloud)
+library("RColorBrewer")
+```
+
+```{r}
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Netflix", cex = 1.5, col = "black")
+wordcloud(words = netflix_genre_freq$netflix_genre, freq = netflix_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
+
+### hulu word cloud
+
+
+```{r}
+nrow(hulu_six)
+```
+
+
+```{r}
+hulu_genre <- c()
+
+for (index in 1:nrow(hulu_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  hulu_genre <- c(hulu_genre, genre)
+}
+
+haha <- table(hulu_genre)
+hulu_genre_freq <- data.frame(haha)
+```
+
+```{r}
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Hulu", cex = 1.5, col = "black")
+wordcloud(words = hulu_genre_freq$hulu_genre, freq = hulu_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
+
+### prime word cloud
+
+
+```{r}
+nrow(prime_six)
+```
+
+
+```{r}
+prime_genre <- c()
+
+for (index in 1:nrow(prime_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  prime_genre <- c(prime_genre, genre)
+}
+
+haha <- table(prime_genre)
+prime_genre_freq <- data.frame(haha)
+```
+
+```{r}
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Prime", cex = 1.5, col = "black")
+wordcloud(words = prime_genre_freq$prime_genre, freq = prime_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
+
+
+### Disney+ word cloud
+
+
+```{r}
+nrow(disney_six)
+```
+
+
+```{r}
+disney_genre <- c()
+
+for (index in 1:nrow(disney_six)) {
+  movie_to_test <- table[index, ]
+  genre <- as.character(movie_to_test$Genres)
+  genre <- unlist(strsplit(genre, split = ","))
+  disney_genre <- c(disney_genre, genre)
+}
+
+haha <- table(disney_genre)
+disney_genre_freq <- data.frame(haha)
+```
+
+```{r}
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Disney+", cex = 1.5, col = "black")
+wordcloud(words = disney_genre_freq$disney_genre, freq = disney_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
+```
