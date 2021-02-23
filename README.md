@@ -51,10 +51,10 @@ and where __denom__ is N(N-1) where __n__ is the number of films considered in t
 A similar formula/procedure was applied across the board for six unique metrics including: production year, country, genre, language, age rating, and runtime. The results for this category for diversity are as follows:
 | Placing | Production Year | Country | Genre | Language | Age Rating | Runtime | Overall |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| *1st Place*  | Disney+  | Netflix | Hulu | Netflix | Hulu | Netflix | __Netflix__ |
-| *2nd Place*  | Prime Video  | Hulu | Prime Video | Hulu | Netflix | Disney+ | __Hulu__ |
-| *3rd Place*  | Hulu  | Prime Video | Netflix | Prime Video | Disney+ | Prime Video | __Prime Video__ |
-| *4th Place*  | Netflix  | Disney+ | Disney+ | Disney+ | Prime Video | Hulu | __Disney+__ |
+| *1st Place*  | Disney+  | Netflix | Hulu | Netflix | Hulu | Netflix | __Netflix__ 🎉 🟥|
+| *2nd Place*  | Prime Video  | Hulu | Prime Video | Hulu | Netflix | Disney+ | __Hulu__ 🟩|
+| *3rd Place*  | Hulu  | Prime Video | Netflix | Prime Video | Disney+ | Prime Video | __Prime Video__ 🟧|
+| *4th Place*  | Netflix  | Disney+ | Disney+ | Disney+ | Prime Video | Hulu | __Disney+__ 🟦|
 
 ### Category #2: Ratings
 
