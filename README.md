@@ -6,10 +6,10 @@
 Zachary Chang, @zachang890
 
 ### Team
-Kevin Xu, @KevinXu264. 
-Nora Liu, @yanxiliu230. 
-Eleanor Pae, @epae0402. 
-Annie Li, @JL03-Yue. 
+Kevin Xu, @KevinXu264 <br />
+Nora Liu, @yanxiliu230 <br />
+Eleanor Pae, @epae0402 <br />
+Annie Li, @JL03-Yue <br />
 
 ## Project Description & Motivation
 
