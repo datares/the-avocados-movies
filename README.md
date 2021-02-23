@@ -1,5 +1,5 @@
-# [INSERT BLOG TITLE] 🥑🥑🥑🥑🥑🥑🥑
-
+# [INSERT BLOG TITLE] 
+By: Team The Avocados 🥑🥑🥑🥑🥑🥑🥑 <br />
 ## Contributors
 
 ### Project	Lead
