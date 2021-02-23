@@ -13,20 +13,40 @@ Annie Li, @JL03-Yue <br />
 
 ## Project Description & Motivation
 
+
 ## Tech Used
 - Jupyter Notebooks
 - RStudio
 - Matplotlib, ggplot, highcharter
 ## Data Sources
-[Kaggle: Movies on Netflix, Prime Video, Hulu and Disney+](https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
-[Kaggle: Movie Industry](https://www.kaggle.com/danielgrijalvas/movies)
-[Kaggle: IMDb movies extensive dataset](https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset)
-[Kaggle: MovieLens 20M Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset?select=movie.csv)
-[Kaggle: Netflix Movies and TV Shows](https://www.kaggle.com/shivamb/netflix-shows)
+- #1: [Kaggle: Movies on Netflix, Prime Video, Hulu and Disney+](https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
+- #2: [Kaggle: Movie Industry](https://www.kaggle.com/danielgrijalvas/movies)
+- #3: [Kaggle: IMDb movies extensive dataset](https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset)
+- #4: [Kaggle: MovieLens 20M Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset?select=movie.csv)
+- #5: [Kaggle: Netflix Movies and TV Shows](https://www.kaggle.com/shivamb/netflix-shows)
 
 ## Ranking Categories
-
 ### Category #1: Diversity
+Datasets used: #1, #2
+Objective: Quantify and rank the diversity of films available on each streaming platform, where greater diversity is considered more favorable
+
+The challenge of ranking the streaming services by diversity is that diversity is inherently a rather abstract category. In ecology, scientists have developed a mathematical methodology for quantifying biodiversity by taking into account the *number of species* as well as the *abundance of each species*. Through further research, it was concluded that this is the best mathematical representation of diversity to be found. 
+
+In Python, the mathematical formula is as follows:
+```python
+def simpson_index(year_count):
+    total_count = 0
+    for key in year_count:
+        total_count += year_count[key]
+    denom = total_count * (total_count - 1)
+    
+    numer = 0
+    for key in year_count:
+        numer = numer + (year_count[key] * (year_count[key] - 1))
+    return 1 - (numer/denom)
+```
+where __numer__ is ∑n(n-1) where __n__ is the number of instances of a certain metric (ex. in this example, year of production)
+and where __denom__ is N(N-1) where __n__ is the number of films considered in this metric
 
 ### Category #2: Ratings
 
