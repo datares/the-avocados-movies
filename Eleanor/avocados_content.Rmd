@@ -36,3 +36,36 @@ hulumovies <- table(movies$Hulu == 1)
 primemovies <- table(movies$Prime.Video == 1)
 disneymovies <- table(movies$Disney. == 1)
 ```
+```{r}
+## New data frame of number of movies
+amtofmovies <- data.frame(matrix(ncol=4, nrow=0))
+y <- c("Netflix", "Hulu", "Disney+", "Amazon Prime")
+colnames(amtofmovies) <- y
+amtofmovies <- structure(rbind(amtofmovies, c(3560, 903, 564, 12354)), .Names = names(amtofmovies))
+amtofmovies <- data.frame(service=c("Netflix", "Hulu", "Disney+", "Amazon Prime"), numofmovies=c(3560, 903, 564, 12354))
+
+## New data frame of number of tv shows
+amtofshows <- data.frame(matrix(ncol=4, nrow=0))
+y <- c("Netflix", "Hulu", "Disney+", "Amazon Prime")
+colnames(amtofshows) <- y
+amtofshows <- structure(rbind(amtofshows, c(1931, 1754, 180, 2144)), .Names = names(amtofshows))
+amtofshows <- data.frame(service=c("Netflix", "Hulu", "Disney+", "Amazon Prime"), numofshows=c(1931, 1754, 180, 2144))
+```
+
+```{r}
+## Create Bar Plots for each streaming service
+
+library(ggplot2)
+
+## Movies
+
+ggplot(data = amtofmovies, aes(x=service, y=numofmovies)) + geom_bar(stat = "identity")
+moviescontent <- ggplot(amtofmovies, aes(x=service, y=numofmovies, color=service)) + geom_bar(stat="identity", fill="#CECCE4")
+moviescontent+scale_color_manual(values=c("#7BAA40", "#113CCF", "#1ce783", "#E50914"))
+
+## Shows
+
+ggplot(data = amtofshows, aes(x=service, y=numofshows)) + geom_bar(stat = "identity")
+showscontent <- ggplot(amtofshows, aes(x=service, y=numofshows, fill=service)) + geom_bar(stat="identity", color="#CECCE4")
+showscontent+scale_fill_manual(values=c("#7BAA40", "#113CCF", "#1ce783", "#E50914"))
+```
