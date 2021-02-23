@@ -1,4 +1,4 @@
-# [INSERT BLOG TITLE]
+# [INSERT BLOG TITLE] 🥑🥑🥑🥑🥑🥑🥑
 
 ## Contributors
 
