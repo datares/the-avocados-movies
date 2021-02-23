@@ -13,4 +13,23 @@ Annie Li, @JL03-Yue <br />
 
 ## Project Description & Motivation
 
+## Tech Used
+- Jupyter Notebooks
+- RStudio
+- Matplotlib
+## Data Sources
+
+## Ranking Categories
+
+# Category #1: Diversity
+
+# Category #2: Ratings
+
+# Category #3: Amount of Content
+
+# Category #4: Exclusive Content
+
+## Overall Results & Conclusion
+
+
 
