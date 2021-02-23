@@ -11,7 +11,13 @@ Nora Liu, @yanxiliu230 <br />
 Eleanor Pae, @epae0402 <br />
 Annie Li, @JL03-Yue <br />
 
-## Project Description & Motivation
+## Project Description & Motivation (Available On MEDIUM)
+The video streaming services industry is everywhere, and it’s one that consumers use daily especially in quarantine. What would we do without some light binge-watching of Disney movies, classic sitcoms like “Friends”, and new content every other week? With over 2,000 streaming businesses in the streaming industry, 4 key players, and continuously booming growth due to the variety of content produced, it can be difficult to narrow down which sites are necessary for personal leisure and entertainment. If you’ve ever had difficulty choosing which subscription to give in to, you’re not alone.
+
+Team Avocados had the same dilemma and aimed to find the best streaming service for entertainment consumers. When checking out services like Netflix, Hulu, Disney+, and Amazon Prime, the pros and cons can be confusing and overwhelming. 
+
+Using Kaggle datasets of TV shows and movies offered on these 4 streaming platforms as well as IMDb datasets of movie ratings, we discovered which service outshined the rest for certain metrics. By looking at the amount of content, diversity and variety in the selection offered, popular and highly-rated movies, and exclusive or original streaming content, our team hoped to alleviate some of these concerns to narrow down the best service. 
+
 
 
 ## Tech Used
