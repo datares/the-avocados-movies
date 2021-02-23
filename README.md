@@ -16,7 +16,7 @@ Annie Li, @JL03-Yue <br />
 ## Tech Used
 - Jupyter Notebooks
 - RStudio
-- Matplotlib
+- Matplotlib, ggplot, highcharter
 ## Data Sources
 
 ## Ranking Categories
