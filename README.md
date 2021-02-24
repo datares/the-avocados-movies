@@ -81,12 +81,14 @@ To generate the data for this comparison, we first split and subset the datasets
 
 While IMDb movie scores was widely available on Kaggle, we couldn't find any IMDb ratings for TV shows, so we created our own by extracting the open source IMDb data on their website, filtering for only TV shows, and then combining them using SQL queries due to the massive size of the data. In SQL, the query used was
 
-```DML
-SELECT movie_names.titleType, movie_names.primaryTitle, movie_ratings.averageRating, movie_ratings.numVotes, 
-movie_names.startYear, movie_names.runTimeMinutes, movie_names.genres
-FROM movie_names
-INNER JOIN movie_ratings
-ON movie_ratings.tconst = movie_names.tconst
+```DDL
+CREATE TABLE (
+	SELECT movie_names.titleType, movie_names.primaryTitle, movie_ratings.averageRating, movie_ratings.numVotes, 
+	movie_names.startYear, movie_names.runTimeMinutes, movie_names.genres
+	FROM movie_names
+	INNER JOIN movie_ratings
+	ON movie_ratings.tconst = movie_names.tconst
+)
 
 ```
 ## Overall Results & Conclusion
