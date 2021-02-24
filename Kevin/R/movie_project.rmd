@@ -2,7 +2,6 @@
 title: "Data Res: Team Avacados"
 output: 
   html_document:
-    toc: TRUE
     toc_float: TRUE
 ---
 
@@ -28,6 +27,21 @@ tv_shows <- read.csv("tv_shows.csv", na.strings=c("","NA"))
 tv_shows <- tv_shows %>% select(-1, -type) %>% rename(Disney = Disney.) %>% 
   group_by(row_number()) %>% mutate(Total_Stream_Platforms = sum(Netflix, Hulu, Prime.Video, Disney)) %>% ungroup() %>%
   separate(Rotten.Tomatoes, sep ="%", into = c("Rotten.Tomatoes","Empty")) %>% select(-Empty, -`row_number()`)
+imdb_data <- read.csv("movie_metadata.csv")
+imdb_data_shows <- read.csv("IMDB_tvshow_set.csv", sep = ";")
+
+# top_tv_shows_netflix <- read.csv("tvShows-netflix.csv")
+# top_tv_shows_netflix <- top_tv_shows_netflix %>% filter(Netflix == 1) %>% arrange(desc(IMDB_Rating))
+# 
+# top_tv_shows_prime <- read.csv("Prime_TV_Shows Data set.csv")
+# top_tv_shows_prime <- top_tv_shows_prime %>% arrange(desc(IMDb.rating))
+
+top_tv_disney <- read.csv("disney_plus_shows.csv")
+top_tv_disney$imdb_votes <- as.numeric(gsub(",","",top_tv_disney$imdb_votes))
+top_tv_shows_disney <- top_tv_disney%>% select(title, type, year, IMDb = imdb_rating, imdb_votes) %>% filter(type == "series" & IMDb != "N/A") %>% arrange(desc(imdb_votes))
+top_tv_shows_disney$IMDb <- as.numeric(top_tv_shows_disney$IMDb)
+top_tv_shows_disney$Year <- top_tv_shows_disney$Year[1,4]
+
 
 netflix_shows <- tv_shows %>% filter(Netflix == 1) %>% arrange(desc(IMDb))
 hulu_shows <- tv_shows %>% filter(Hulu == 1) %>% arrange(desc(IMDb))
@@ -42,58 +56,104 @@ movies <- movies %>% select(Title:Disney.) %>% rename(Disney = Disney.) %>%
   group_by(row_number()) %>% mutate(Total_Stream_Platforms = sum(Netflix, Hulu, Prime.Video, Disney)) %>% ungroup() %>%
   separate(Rotten.Tomatoes, sep ="%", into = c("Rotten.Tomatoes","Empty")) %>% select(-Empty, -`row_number()`)
 
+top_tv_disney <- read.csv("disney_plus_shows.csv")
+top_tv_disney$imdb_votes <- as.numeric(gsub(",","",top_tv_disney$imdb_votes))
+top_movies_disney <- top_tv_disney%>% select(Title = title, type, Year = year, IMDb = imdb_rating, imdb_votes) %>% filter(type == "movie" & IMDb != "N/A") %>% arrange(desc(imdb_votes))
+
 netflix_movies <- movies %>% filter(Netflix == 1) %>% arrange(desc(IMDb))
 hulu_movies <- movies %>% filter(Hulu == 1) %>% arrange(desc(IMDb))
 prime_movies <- movies %>% filter(Prime.Video == 1) %>% arrange(desc(IMDb))
 disney_movies <- movies %>% filter(Disney == 1) %>% arrange(desc(IMDb))
+
+disney_top_100_movies <- top_movies_disney %>% head(100) %>% select(-type) 
+disney_top_100_movies$Year <- as.numeric(disney_top_100_movies$Year)
+disney_top_100_movies$IMDb <- as.numeric(disney_top_100_movies$IMDb)
+
+
 ```
 
-### Plotting TV Summaries
-```{r Plotting TV Summaries, warning = FALSE}
-tv_platforms_summary <- tv_shows %>% group_by(Total_Stream_Platforms) %>% summarise(total = n())
-ggplot(tv_platforms_summary, aes(x=factor(Total_Stream_Platforms), y=total, fill = factor(Total_Stream_Platforms))) +
-  geom_bar(stat = "identity") + labs(title = "Number of TV Shows Shown on Platforms", x = "Number of Platforms", y= "Movies", fill = "Number of Platforms") + theme(plot.title = element_text(hjust = 0.5)) + scale_fill_brewer(palette = "Purples") + theme( 
-    panel.background = element_rect(fill = "white"))
-
-tv_service_summary <- tv_shows %>% pivot_longer(Netflix: Disney, names_to = "service", values_to = "count") %>%
-  group_by(service) %>% filter(count != 0) %>% summarise(numShows = sum(count), avg_rotten = mean(as.numeric(Rotten.Tomatoes), na.rm = TRUE), avg_IMDb = mean(IMDb, na.rm = TRUE))
-
-ggplot(tv_service_summary, aes(x=service, y=numShows, fill = service)) +
-  geom_bar(stat = "identity") + labs(title = "Number of Shows Per Streaming Service", x = "Streaming Service", y= "Number of Shows", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) + scale_fill_brewer(palette = "Purples") + theme( 
-    panel.background = element_rect(fill = "white"))
-ggplot(tv_service_summary, aes(x=service, y=avg_rotten, fill = service)) +
-  geom_bar(stat = "identity") + labs(title = "TV Show Rotten Tomato Score Per Streaming Service", x = "Streaming Service", y= "Average Rotten Tomatoes Score", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
-  coord_cartesian(ylim = c(75,82.5)) + scale_fill_brewer(palette = "Purples") + theme( 
-    panel.background = element_rect(fill = "white"))
-
-ggplot(tv_service_summary, aes(x=service, y=avg_IMDb, fill = service)) +
-  geom_bar(stat = "identity") + labs(title = "TV Show IMDb Score Per Streaming Service", x = "Streaming Service", y= "Average IMDb", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
-  coord_cartesian(ylim = c(6.9,7.2)) + scale_fill_brewer(palette = "Purples") + theme( 
-    panel.background = element_rect(fill = "white"))
+###Get Netflix Top 100 Movies
+```{r}
+netflix_top_100_movies <- netflix_movies %>% select(Title, Year, IMDb) %>% mutate(imdb_votes = as.numeric(NA))%>% filter(!grepl(pattern = "**", Title, fixed = TRUE))
+parse_data <- imdb_data %>% select(movie_title, num_voted_users) 
+for (i in c(1:nrow(netflix_top_100_movies)))
+{
+  movieTitle <- netflix_top_100_movies[[1]][[i]]
+  row <- parse_data %>% filter(grepl({movieTitle}, movie_title))
+  length <- nrow(row)
+  if (length != 0)
+  {
+    netflix_top_100_movies[[4]][i] = row[[2]][1]
+  }
+}
+netflix_top_100_movies <- netflix_top_100_movies %>% filter(!is.na(imdb_votes)) %>% arrange(desc(imdb_votes))
 ```
 
-### Plotting Movie Summaries
-```{r Plotting Movie Summaries, warning = FALSE}
-movie_platforms_summary <- movies %>% group_by(Total_Stream_Platforms) %>% summarise(total = n())
-ggplot(movie_platforms_summary, aes(x=factor(Total_Stream_Platforms), y=total, fill = factor(Total_Stream_Platforms))) +
-  geom_bar(stat = "identity") + labs(title = "Number of Movies Shown on Platforms", x = "Number of Platforms", y= "Movies", fill = "Number of Platforms") + theme(plot.title = element_text(hjust = 0.5)) + scale_fill_brewer(palette = "Blues") + theme( 
-    panel.background = element_rect(fill = "white"))
+###Get Hulu Top 100 Movies
+```{r}
+hulu_top_100_movies <- hulu_movies %>% select(Title, Year, IMDb) %>% mutate(imdb_votes = as.numeric(NA))%>% filter(!grepl(pattern = "**", Title, fixed = TRUE))
+parse_data <- imdb_data %>% select(movie_title, num_voted_users) 
+for (i in c(1:nrow(hulu_top_100_movies)))
+{
+  movieTitle <- hulu_top_100_movies[[1]][[i]]
+  row <- parse_data %>% filter(grepl({movieTitle}, movie_title))
+  length <- nrow(row)
+  if (length != 0)
+  {
+    hulu_top_100_movies[[4]][i] = row[[2]][1]
+  }
+}
+hulu_top_100_movies <- hulu_top_100_movies %>% filter(!is.na(imdb_votes)) %>% arrange(desc(imdb_votes))
+```
 
-movie_service_summary <- movies %>% pivot_longer(Netflix: Disney, names_to = "service", values_to = "count") %>%
-  group_by(service) %>% filter(count != 0) %>% summarise(numMovies = sum(count), avg_rotten = mean(as.numeric(Rotten.Tomatoes), na.rm = TRUE), avg_IMDb = mean(IMDb, na.rm = TRUE))
+###Get Prime Video Top 100 Movies
+```{r}
+prime_top_100_movies <- prime_movies %>% select(Title, Year, IMDb) %>% mutate(imdb_votes = as.numeric(NA))%>% filter(!grepl(pattern = "**", Title, fixed = TRUE))
+parse_data <- imdb_data %>% select(movie_title, num_voted_users) 
+for (i in c(1:nrow(prime_top_100_movies)))
+{
+  movieTitle <- prime_top_100_movies[[1]][[i]]
+  row <- parse_data %>% filter(grepl({movieTitle}, movie_title))
+  length <- nrow(row)
+  if (length != 0)
+  {
+    prime_top_100_movies[[4]][i] = row[[2]][1]
+  }
+}
+prime_top_100_movies <- prime_top_100_movies %>% filter(!is.na(imdb_votes)) %>% arrange(desc(imdb_votes))
+```
 
-ggplot(movie_service_summary, aes(x=service, y=numMovies, fill = service)) +
-  geom_bar(stat = "identity") + labs(title = "Number of Movies Per Streaming Service", x = "Streaming Service", y= "Number of Movies", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) + scale_fill_brewer(palette = "Blues") + theme( 
-    panel.background = element_rect(fill = "white"))
+### Plotting top 100 movies shows across all streaming services
+```{r}
+library("ggpubr")
+disney_top_100_movies <- disney_top_100_movies %>% mutate(service = "Disney") %>% head(100)
+hulu_top_100_movies <- hulu_top_100_movies %>% mutate(service = "Hulu") %>% head(100)
+netflix_top_100_movies <- netflix_top_100_movies %>% mutate(service = "Netflix") %>% head(100)
+prime_top_100_movies <- prime_top_100_movies %>% mutate(service = "Amazon Prime") %>% head(100)
 
-ggplot(movie_service_summary, aes(x=service, y=avg_rotten, fill = service)) +
-  geom_bar(stat = "identity") + labs(title = "Movie Rotten Tomato Scores Per Streaming Service", x = "Streaming Service", y= "Average Rotten Tomatoes Score", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
-  coord_cartesian(ylim = c(64,67)) + scale_fill_brewer(palette = "Blues") + theme( 
-    panel.background = element_rect(fill = "white"))
+total_top_100 <- bind_rows(disney_top_100_movies, hulu_top_100_movies, netflix_top_100_movies, prime_top_100_movies)
 
-ggplot(movie_service_summary, aes(x=service, y=avg_IMDb, fill = service)) +
-  geom_bar(stat = "identity") + labs(title = "Movie IMDb Score Per Streaming Service", x = "Streaming Service", y= "Average IMDb", fill = "Streaming Service") + theme(plot.title = element_text(hjust = 0.5)) +
-  coord_cartesian(ylim = c(5.5,6.5)) + scale_fill_brewer(palette = "Blues") + theme( 
-    panel.background = element_rect(fill = "white"))
+my_colors <- c("#FFAF12","#34558B","#4EC5A5","#D0393E")
+
+imdb_movies<- ggplot(data = total_top_100, aes(x=service, y=imdb_votes, fill = service)) +
+  geom_boxplot() + labs(title = "IMDb Votes", x = "Service", y = "IMDB Votes") + theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom") + scale_fill_manual(values = my_colors) 
+ggsave(filename = "votes_top_100", plot = last_plot(), device = "png")
+
+ratings_movies <- ggplot(data = total_top_100, aes(x=service, y=IMDb, fill = service)) +
+  geom_boxplot() + labs(title = "IMDb Ratings", x = "Service", y = "IMDB Rating") + theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom") + scale_fill_manual(values = my_colors) 
+ggsave(filename = "rating_top_100", plot = last_plot(), device = "png")
+
+ggplot(data = total_top_100, aes(x=service, y=Year, fill = service)) +
+  geom_boxplot() + labs(title = "Release Dates for the top 100 Movies Per Subscription Service", x = "Service", y = "Year of Release") + theme(plot.title = element_text(hjust = 0.5), legend.position = "bottom") + coord_cartesian(ylim = c(1975,2020)) +scale_fill_manual(values = my_colors) 
+ggsave(filename = "release_top_100", plot = last_plot(), device = "png")
+
+ggarrange(imdb_movies, ratings_movies,
+                      labels = c("A","B"),
+                      common.legend= TRUE,
+                      legend = "bottom",
+                      ncol = 2)
+
+ggsave("aggregate_movies", plot=last_plot(), device = "png")
+```ment_rect(fill = "white"))
 
 ```
