@@ -24,13 +24,17 @@ Using Kaggle datasets of TV shows and movies offered on these 4 streaming platfo
 - Jupyter Notebooks
 - RStudio
 - Matplotlib, ggplot, highcharter
+- MySQL Workbench
+
 ## Data Sources
 - #1: [Kaggle: Movies on Netflix, Prime Video, Hulu and Disney+](https://www.kaggle.com/ruchi798/movies-on-netflix-prime-video-hulu-and-disney)
-- #2: [Kaggle: Movie Industry](https://www.kaggle.com/danielgrijalvas/movies)
-- #3: [Kaggle: IMDb movies extensive dataset](https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset)
-- #4: [Kaggle: MovieLens 20M Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset?select=movie.csv)
-- #5: [Kaggle: Netflix Movies and TV Shows](https://www.kaggle.com/shivamb/netflix-shows)
-- #6: [IMDB DataSet](https://www.imdb.com/interfaces/)
+- #2 [Kaggle: TV Shows on Netflix, Primve Video, Hulu and Disney+](https://www.kaggle.com/ruchi798/tv-shows-on-netflix-prime-video-hulu-and-disney)
+- #3: [Kaggle: Movie Industry](https://www.kaggle.com/danielgrijalvas/movies)
+- #4: [Kaggle: IMDb movies extensive dataset](https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset)
+- #5: [Kaggle: MovieLens 20M Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset?select=movie.csv)
+- #6: [Kaggle: Netflix Movies and TV Shows](https://www.kaggle.com/shivamb/netflix-shows)
+- #7: [Kaggle: Netflix Top TV Shows](https://www.kaggle.com/ritesh2000/trending-tv-shows-on-netflix)
+- #8: [IMDB DataSet](https://www.imdb.com/interfaces/)
 
 ## Ranking Categories
 ### Category #1: Diversity
@@ -68,7 +72,23 @@ A similar formula/procedure was applied across the board for six unique metrics 
 ### Category #3: Amount of Content
 
 ### Category #4: Exclusive Content
+Datasets used: #1,6,4,6,7,8
+Objective: What differentiates their top 10 list? How popular are the top movies? And what percentage of their views go towards exclusive platform content?
 
+It was inherently difficult to find data that was available on consumer watch data since that is not publicly available information, and thus the next best thing was to solely base exclusive content based on what shows and movies each subscription service offered and ranking them based on the number of IMDb user votes. We felt that that was a more accurate measure of audience popularity and consumption as compared to purely IMDB rating, since that is a performance of how well the movie was according to only a certain number of people, and can be biased to movies/TV shows that have low number of reviewers. 
+
+To generate the data for this comparison, we first split and subset the datasets on Kaggle that distinguished which subscription service offered which TV shows and movies, and then combined that with IMBDb rating and user votes data to generate a combined data frame. 
+
+While IMDb movie scores was widely available on Kaggle, we couldn't find any IMDb ratings for TV shows, so we created our own by extracting the open source IMDb data on their website, filtering for only TV shows, and then combining them using SQL queries due to the massive size of the data. In SQL, the query used was
+
+```DML
+SELECT movie_names.titleType, movie_names.primaryTitle, movie_ratings.averageRating, movie_ratings.numVotes, 
+movie_names.startYear, movie_names.runTimeMinutes, movie_names.genres
+FROM movie_names
+INNER JOIN movie_ratings
+ON movie_ratings.tconst = movie_names.tconst
+
+```
 ## Overall Results & Conclusion
 
 
