@@ -30,7 +30,7 @@ Using Kaggle datasets of TV shows and movies offered on these 4 streaming platfo
 - #3: [Kaggle: IMDb movies extensive dataset](https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset)
 - #4: [Kaggle: MovieLens 20M Dataset](https://www.kaggle.com/grouplens/movielens-20m-dataset?select=movie.csv)
 - #5: [Kaggle: Netflix Movies and TV Shows](https://www.kaggle.com/shivamb/netflix-shows)
-- #6: [IMDB DataSet] (https://www.imdb.com/interfaces/)
+- #6: [IMDB DataSet](https://www.imdb.com/interfaces/)
 
 ## Ranking Categories
 ### Category #1: Diversity
