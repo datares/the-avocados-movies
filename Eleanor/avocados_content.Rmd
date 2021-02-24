@@ -60,12 +60,13 @@ library(ggplot2)
 ## Movies
 
 ggplot(data = amtofmovies, aes(x=service, y=numofmovies)) + geom_bar(stat = "identity")
-moviescontent <- ggplot(amtofmovies, aes(x=service, y=numofmovies, color=service)) + geom_bar(stat="identity", fill="#CECCE4")
-moviescontent+scale_color_manual(values=c("#7BAA40", "#113CCF", "#1ce783", "#E50914"))
+moviescontent <- ggplot(amtofmovies, aes(x=service, y=numofmovies, fill=service)) + geom_bar(stat="identity", color="white")
+moviescontent+scale_fill_manual(values=c("#FFAF12", "#34558B", "#4EC5A5", "#D0393E"))+ggtitle("Amount of content per streaming service") +
+  xlab("Streaming Service") + ylab("Number of movies")
 
 ## Shows
 
 ggplot(data = amtofshows, aes(x=service, y=numofshows)) + geom_bar(stat = "identity")
-showscontent <- ggplot(amtofshows, aes(x=service, y=numofshows, fill=service)) + geom_bar(stat="identity", color="#CECCE4")
-showscontent+scale_fill_manual(values=c("#7BAA40", "#113CCF", "#1ce783", "#E50914"))
-```
+showscontent <- ggplot(amtofshows, aes(x=service, y=numofshows, fill=service)) + geom_bar(stat="identity", color="white")
+showscontent+scale_fill_manual(values=c("#FFAF12", "#34558B", "#4EC5A5", "#D0393E"))+ggtitle("Amount of content per streaming service") +
+  xlab("Streaming Service") + ylab("Number of shows")
