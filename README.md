@@ -38,7 +38,7 @@ Using Kaggle datasets of TV shows and movies offered on these 4 streaming platfo
 
 ## Ranking Categories
 ### Category #1: Diversity
-Datasets used: #1, #2
+Datasets used: #1, #2 <br />
 Objective: Quantify and rank the diversity of films available on each streaming platform, where greater diversity is considered more favorable
 
 The challenge of ranking the streaming services by diversity is that diversity is inherently a rather abstract category. In ecology, scientists have developed a mathematical methodology for quantifying biodiversity by taking into account the *number of species* as well as the *abundance of each species*. Through further research, it was concluded that this is the best mathematical representation of diversity to be found that can be extrapolated to cover *number categories of metrics* and the *abundance of instances of those categories of metrics*. (ex. categories of metrics = [1984, 1926, 1926] abuncance = {1984: 1, 1926: 2}) 
