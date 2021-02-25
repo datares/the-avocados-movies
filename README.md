@@ -76,6 +76,8 @@ Customers usually hope that the streaming service they choose actually worth the
 
 After some analysis of actual mean, median, as well as percentage of movies of different rating range, we discovered that Disney+ wins in all three categories. And even though we generally feel that there is a difference in terms of the genres of movies that each streaming service focus on, e.g. we go to Disney+ for musicals and comedy, the analysis actually tells us that there is not much difference. This finding comes from the word cloud of genres of movies with IMDb above 6.0 generated in R, take netflix for example:
 
+What's more, we also analyzed the distribution of rating according to different platforms, as well as the rating of each genre of each of the four platforms. We discovered that Documentaries and News have higher ratings overall. Disney+ takes lead in Family, Adventure, and Animation, and Netflix is especially rated high for Drama and Comedy.
+
 ```r
 library(wordcloud)
 library("RColorBrewer")
