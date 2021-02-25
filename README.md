@@ -68,6 +68,11 @@ A similar formula/procedure was applied across the board for six unique metrics 
 | *4th Place*  | Netflix  | Disney+ | Disney+ | Disney+ | Prime Video | *Hulu* | __Disney+__ 🟦|
 
 ### Category #2: Ratings
+Datasets used: #1
+
+Objective: What is the average and typical IMDb ratings of movies on each streaming service? What percentage do those generally recognized good movies hold among all the movies each service offers?
+
+Customers usually hope that the streaming service they choose actually worth their money. And what we mean by worth it? One important thing we consider is the quality of movies we will get. We definitely do not want to log onto the service and just find that most of the movies don't worth us sitting their for two hours.
 
 ### Category #3: Amount of Content
 
