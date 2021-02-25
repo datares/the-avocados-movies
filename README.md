@@ -74,6 +74,33 @@ Objective: What is the average and typical IMDb ratings of movies on each stream
 
 Customers usually hope that the streaming service they choose actually worth their money. And what we mean by worth it? One important thing we consider is the quality of movies we will get. We definitely do not want to log onto the service and just find that most of the movies don't worth us sitting their for two hours.
 
+After some analysis of actual mean, median, as well as percentage of movies of different rating range, we discovered that Disney+ wins in all three categories. And even though we generally feel that there is a difference in terms of the genres of movies that each streaming service focus on, e.g. we go to Disney+ for musicals and comedy, the analysis actually tells us that there is not much difference. This finding comes from the word cloud of genres of movies with IMDb above 6.0 generated in R, take netflix for example:
+
+```r
+library(wordcloud)
+library("RColorBrewer")
+
+netflix_genre <- c()
+
+for (index in 1:nrow(netflix_six)) {
+  movie_to_test <- table[index, ] # a temporary object to store the movie we are going to process
+  genre <- as.character(movie_to_test$Genres) # convert Genre from factor to character object
+  genre <- unlist(strsplit(genre, split = ","))
+  netflix_genre <- c(netflix_genre, genre)
+}
+
+table_netflix_genre <- table(netflix_genre) # table() will give us the count of each genre
+netflix_genre_freq <- data.frame(table_netflix_genre)
+
+layout(matrix(c(1, 2), nrow=2), heights=c(1, 4))
+par(mar=rep(0, 4))
+plot.new()
+text(x=0.5, y=0.3, "Netflix", cex = 1.5, col = "black")
+wordcloud(words = netflix_genre_freq$netflix_genre, freq = netflix_genre_freq$Freq, min.freq = 1, colors=brewer.pal(8, "Set1"))
+```
+
+More detailed findings can be found in our Medium article.
+
 ### Category #3: Amount of Content
 
 ### Category #4: Exclusive Content
