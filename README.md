@@ -104,7 +104,11 @@ wordcloud(words = netflix_genre_freq$netflix_genre, freq = netflix_genre_freq$Fr
 More detailed findings can be found in our Medium article.
 
 ### Category #3: Amount of Content
+Datasets used: #1
 
+...
+We also examined the amount of content per age group across the four platforms. From there, we concluded that Prime Video contains comparatively more 18+ and 7+ movies than other three platforms, partially due to the amount of content it has. However, Prime Video only has a slightly advantages for 13+ and movies for all ages than platform with the second most corresponding content --- Disney+. Hulu has the least content, and Netflix has decent amount of content for 7+ and 13+, although falls short in overall content 
+...
 ### Category #4: Exclusive Content
 Datasets used: #1,6,4,6,7,8
 Objective: What differentiates their top 10 list? How popular are the top movies? And what percentage of their views go towards exclusive platform content?
