@@ -91,6 +91,48 @@ CREATE TABLE (
 )
 
 ```
+
+After collecting all the movies and TV shows that each subscription service offers, we then sorted and collected data for the top 100 Movies and TV shows based on the num of user submitted votes on IMDb and we compared the distribution of release dates, IMDb votes, and IMDb ratings across all four subscription services. We then determined the winners in each category. It was difficult to come up with a clear overall winner, because even though Disney was outleading in the movies categories, it severely underperformed compared to every other service in the TV shows category. Below is just an example of what the data frames looked like that we used to graph. More data is included within our data and graphs section in our repo! 
+
+#### This is an example of the top 15 Disney Movies
+|    | Title                                                  | Year | IMDb | imdb_votes | service |
+| -- | ------------------------------------------------------ | ---- | ---- | ---------- | ------- |
+| 1  | The Avengers                                           | 2012 | 8    | 1225316    | Disney  |
+| 2  | Star Wars: Episode IV - A New Hope                     | 1977 | 8.6  | 1188658    | Disney  |
+| 3  | Star Wars: Episode V - The Empire Strikes Back         | 1980 | 8.7  | 1109656    | Disney  |
+| 4  | Avatar                                                 | 2009 | 7.8  | 1086714    | Disney  |
+| 5  | Guardians of the Galaxy                                | 2014 | 8    | 1007917    | Disney  |
+| 6  | Pirates of the Caribbean: The Curse of the Black Pearl | 2003 | 8    | 992127     | Disney  |
+| 7  | WALL·E                                                 | 2008 | 8.4  | 955757     | Disney  |
+| 8  | Star Wars: Episode VI - Return of the Jedi             | 1983 | 8.3  | 912250     | Disney  |
+| 9  | Finding Nemo                                           | 2003 | 8.1  | 911647     | Disney  |
+| 10 | Iron Man                                               | 2008 | 7.9  | 910300     | Disney  |
+| 11 | The Lion King                                          | 1994 | 8.5  | 901362     | Disney  |
+| 12 | Up                                                     | 2009 | 8.2  | 895906     | Disney  |
+| 13 | Toy Story                                              | 1995 | 8.3  | 846332     | Disney  |
+| 14 | Star Wars: Episode VII - The Force Awakens             | 2015 | 7.9  | 833706     | Disney  |
+| 15 | Monsters, Inc.                                         | 2001 | 8    | 779728     | Disney  |
+
+#### This is an exameple of the top 15 Netflix TV Shows
+|    | Title            | Year | IMDb | imdb_votes | service |
+| -- | ---------------- | ---- | ---- | ---------- | ------- |
+| 1  | Breaking Bad     | 2008 | 9.5  | 1467953    | Netflix |
+| 2  | The Walking Dead | 2010 | 8.2  | 854372     | Netflix |
+| 3  | Stranger Things  | 2016 | 8.8  | 824251     | Netflix |
+| 4  | Sherlock         | 2010 | 9.1  | 808347     | Netflix |
+| 5  | Dexter           | 2006 | 8.6  | 646903     | Netflix |
+| 6  | House of Cards   | 2013 | 8.7  | 467258     | Netflix |
+| 7  | Black Mirror     | 2011 | 8.8  | 445446     | Netflix |
+| 8  | Arrow            | 2012 | 7.6  | 407822     | Netflix |
+| 9  | Supernatural     | 2005 | 8.4  | 393006     | Netflix |
+| 10 | Narcos           | 2015 | 8.8  | 358250     | Netflix |
+| 11 | Peaky Blinders   | 2013 | 8.8  | 350120     | Netflix |
+| 12 | Better Call Saul | 2015 | 8.7  | 324611     | Netflix |
+| 13 | The Flash        | 2014 | 7.7  | 305509     | Netflix |
+| 14 | Family Guy       | 1999 | 8.1  | 304819     | Netflix |
+| 15 | The Witcher      | 2019 | 8.3  | 300996     | Netflix |
+|    |
+
 ## Overall Results & Conclusion
 
 
