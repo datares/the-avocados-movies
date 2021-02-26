@@ -1,4 +1,4 @@
-# [INSERT BLOG TITLE] 
+# Streaming Wars: Disney+, Prime Video, Hulu and Netflix
 By: Team The Avocados 🥑🥑🥑🥑🥑🥑🥑 <br />
 ## Contributors
 
