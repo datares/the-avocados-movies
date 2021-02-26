@@ -172,6 +172,12 @@ After collecting all the movies and TV shows that each subscription service offe
 |    |
 
 ## Overall Results & Conclusion
+| Placing | Diversity | Rating | Amount of Content | Exclusive Content | Overall |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| *1st Place*  | Hulu | Disney+ | Prime Video | Netflix | __Netflix__ 🎉 🟥|
+| *2nd Place*  | Netflix | Netflix | Netflix | Disney+ | __Prime Video__/__Hulu__/__Disney+__ 🟧🟩🟦|
+| *3rd Place*  | Prime Video | Hulu | Hulu | Prime Video |-|
+| *4th Place*  | Disney+  | Prime Video | Disney+ | Hulu | -|
 
 
 
