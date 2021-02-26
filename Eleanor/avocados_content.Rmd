@@ -70,3 +70,20 @@ ggplot(data = amtofshows, aes(x=service, y=numofshows)) + geom_bar(stat = "ident
 showscontent <- ggplot(amtofshows, aes(x=service, y=numofshows, fill=service)) + geom_bar(stat="identity", color="white")
 showscontent+scale_fill_manual(values=c("#FFAF12", "#34558B", "#4EC5A5", "#D0393E"))+ggtitle("Amount of content per streaming service") +
   xlab("Streaming Service") + ylab("Number of shows")
+  
+## Double Bar Plot comparing movies and shows
+
+total <- merge(amtofmovies, amtofshows, by="service")
+ 
+# create a dataset
+streaming <- c(rep("Netflix" , 2) , rep("Hulu" , 2) , rep("Disney+" , 2) , rep("Amazon Prime" , 2) )
+condition <- rep(c("movies", "shows") , 4)
+value <- c(3560, 1931, 903, 1754, 564, 180, 12354, 2144)
+data <- data.frame(streaming,condition,value)
+ 
+# Grouped
+ggplot(data, aes(fill=condition, y=value, x=streaming)) + 
+    geom_bar(position="dodge", stat="identity") + scale_fill_manual(values=c("#b392ac", "#e8c2ca"))+ggtitle("Movies and Shows per streaming service") +
+  xlab("Streaming Service") + ylab("Number of titles")
+
+```
