@@ -150,30 +150,62 @@ lty = c(2), inset = 0.05 )
 ![](imdb_and_rotten_files/figure-html/unnamed-chunk-3-1.png)<!-- -->
 
 
+```r
+library(ggplot2)
+```
+
+
+```r
+temp_plat <- c(rep("Prime Video", nrow(prime)),
+                  rep("Netflix", nrow(netflix)),
+                  rep("Hulu", nrow(hulu)),
+                  rep("Disney+", nrow(disney)))
+
+temp_imdb <- c(prime$IMDb, netflix$IMDb, hulu$IMDb, disney$IMDb)
+df_imdb <- data.frame("Platform" = temp_plat, "IMDb" = temp_imdb)
+df <- ggplot(df_imdb, aes(x=IMDb,  color = Platform)) +
+  geom_histogram(position="identity", fill="white", alpha = 0)
+df <- df + scale_fill_manual(values=c("#34558B","#4EC5A5", "#D0393E", "#FFAF12" )) + scale_color_manual(values=c("#34558B","#4EC5A5", "#D0393E", "#FFAF12" ))
+df <- df + theme_light()
+df <- df + ggtitle("IMDb Rating")
+df
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 576 rows containing non-finite values (stat_bin).
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
 
 
 ```r
 hist(prime$IMDb, main = 'IMDb Rating',
-     prob = FALSE, density = 20, col = "#FFAF12",
-     ylim = c(0, 2000), xlim=c(0, 10))
+     prob = FALSE,  col = "#FFAF12",
+     ylim = c(0, 2000), xlim=c(0, 10),
+     xlab = "IMDb")
 hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
-     prob = FALSE, density = 30, col = "#D0393E",
+     prob = FALSE,  col = "#D0393E",
      ylim = c(0, 2000), xlim=c(0, 10), add = TRUE)
 hist(hulu$IMDb, main = 'hulu', add = TRUE,
-     prob = FALSE, density = 40, col = "#4EC5A5",)
+     prob = FALSE,  col = "#4EC5A5",)
 hist(disney$IMDb, main = 'disney', add = TRUE,
-     prob = FALSE, density = 50, col = "#34558B",)
+     prob = FALSE,  col = "#34558B",)
 
-legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), density = c(20, 30, 40, 50),
+legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), 
 fill = c("#FFAF12", "#D0393E", "#4EC5A5", "#34558B"), inset = 0.05)
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 
 ```r
 hist(prime$Rotten.Tomatoes, main = 'Rotten Tomatoes',
-     prob = FALSE, density = 20, col = "#FFAF12",ylim = c(0, 800))
+     prob = FALSE, density = 20, col = "#FFAF12",ylim = c(0, 800), xlab = "Rotten Tomatoes")
 hist(netflix$Rotten.Tomatoes, main = 'Rotten Tomatoes', xlab = 'Rotten Tomatoes',
      prob = FALSE, density = 30, col = "#D0393E",
      ylim = c(0, 800), add = TRUE)
@@ -186,7 +218,7 @@ legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), density = c(20, 30, 
 fill = c("#FFAF12", "#D0393E", "#4EC5A5", "#34558B"), inset = 0.05)
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 
 ## T-test on mean
@@ -197,12 +229,13 @@ mean_imdb <- data.frame("Netflix" = mean(netflix$IMDb, na.rm = TRUE),
                         "Hulu" = mean(hulu$IMDb, na.rm = TRUE),
                         "Prime" = mean(prime$IMDb, na.rm = TRUE),
                         "Disney+" = mean(disney$IMDb, na.rm = TRUE))
+rownames(mean_imdb) <- c("Mean IMDb Ratings")
 mean_imdb
 ```
 
 ```
-##    Netflix     Hulu   Prime  Disney.
-## 1 6.252963 6.138117 5.77091 6.441385
+##                    Netflix     Hulu   Prime  Disney.
+## Mean IMDb Ratings 6.252963 6.138117 5.77091 6.441385
 ```
 
 
@@ -254,8 +287,10 @@ imdb <- rbind(df_netflix, df_hulu, df_prime, df_disney)
 ```r
 p1 <- ggplot(imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p1 <- p1 + ggtitle("IMDb of movies on four platforms")
+p1 <- p1 + ggtitle("IMDb ratings")
 p1 <- p1 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p1 <- p1 + scale_x_discrete(name = "Service")
+p1 <- p1 +labs(fill="Streaming Service")
 ```
 
 
@@ -284,11 +319,16 @@ df_action_hulu <- data.frame("Platform" = "Hulu", "IMDb" = action_hulu$IMDb)
 df_action_prime <- data.frame("Platform" = "Prime", "IMDb" = action_prime$IMDb)
 df_action_disney <- data.frame("Platform" = "Disney+", "IMDb" = action_disney$IMDb)
 df_action_imdb <- rbind(df_action_netflix, df_action_hulu, df_action_prime, df_action_disney)
+```
 
+
+```r
 p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p2 <- p2 + ggtitle("IMDb of Action Movies")
+p2 <- p2 + ggtitle("IMDb Ratings of Action Movies")
 p2 <- p2 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p2 <- p2 + scale_x_discrete(name = "Service")
+p2 <- p2 + labs(fill="Streaming Service")
 ```
 
 
@@ -316,11 +356,16 @@ df_scifi_hulu <- data.frame("Platform" = "Hulu", "IMDb" = scifi_hulu$IMDb)
 df_scifi_prime <- data.frame("Platform" = "Prime", "IMDb" = scifi_prime$IMDb)
 df_scifi_disney <- data.frame("Platform" = "Disney+", "IMDb" = scifi_disney$IMDb)
 df_scifi_imdb <- rbind(df_scifi_netflix, df_scifi_hulu, df_scifi_prime, df_scifi_disney)
+```
 
+
+```r
 p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p3 <- p3 + ggtitle("IMDb of Sci-Fi")
+p3 <- p3 + ggtitle("IMDb Ratings of Sci-Fi")
 p3 <- p3 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p3 <- p3 + scale_x_discrete(name = "Service")
+p3 <- p3 +labs(fill="Streaming Service")
 ```
 
 
@@ -349,11 +394,16 @@ df_comedy_hulu <- data.frame("Platform" = "Hulu", "IMDb" = comedy_hulu$IMDb)
 df_comedy_prime <- data.frame("Platform" = "Prime", "IMDb" = comedy_prime$IMDb)
 df_comedy_disney <- data.frame("Platform" = "Disney+", "IMDb" = comedy_disney$IMDb)
 df_comedy_imdb <- rbind(df_comedy_netflix, df_comedy_hulu, df_comedy_prime, df_comedy_disney)
+```
 
+
+```r
 p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p4 <- p4 + ggtitle("IMDb of Comedy")
+p4 <- p4 + ggtitle("IMDb Ratings of Comedy")
 p4 <- p4 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p4 <- p4 + scale_x_discrete(name = "Service")
+p4 <- p4 +labs(fill="Streaming Service")
 ```
 
 
@@ -381,7 +431,7 @@ ggarrange(p1, p2, p3, p4, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 ## Warning: Removed 603 rows containing non-finite values (stat_boxplot).
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
 
 ## Boxplots of Rotten Tomatoes
 
@@ -492,7 +542,7 @@ ggarrange(r1, r2, r3, r4, ncol=2, nrow=2, common.legend = TRUE, legend="bottom")
 ## Warning: Removed 12014 rows containing non-finite values (stat_boxplot).
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
 
 ## Data on Movies above 8.0
 
@@ -666,6 +716,59 @@ venn <- cbind(platforms, venn)
 venn <- venn[1:14,]
 ```
 
+
+```r
+venn
+```
+
+```
+##                    platforms Netflix Hulu Prime Disney+ Count
+## 2                    Netflix       1    0     0       0   147
+## 3                       Hulu       0    1     0       0    28
+## 4                      Prime       0    0     1       0   374
+## 5                    Disney+       0    0     0       1    33
+## 6             Netflix + Hulu       1    1     0       0     1
+## 7            Netflix + Prime       1    0     1       0    17
+## 8          Netflix + Disney+       1    0     0       1     0
+## 9               Hulu + Prime       0    1     1       0     3
+## 10            Hulu + Disney+       0    1     0       1     1
+## 11           Prime + Disney+       0    0     1       1     2
+## 12    Netflix + Hulu + Prime       1    1     1       0     1
+## 13  Netflix + Hulu + Disney+       1    1     0       1     0
+## 14 Netflix + Prime + Disney+       1    0     1       1     0
+## 15    Hulu + Prime + Disney+       0    1     1       1     0
+```
+
+## Pie chart of percentage of movies by streaming service
+
+
+```r
+distribution <- data.frame(Platform = c("Netflix", "Hulu", "Prime Video", "Disney+"),
+                           Count = c(nrow(netflix), nrow(hulu), nrow(prime), nrow(disney)))
+distribution
+```
+
+```
+##      Platform Count
+## 1     Netflix  3560
+## 2        Hulu   903
+## 3 Prime Video 12354
+## 4     Disney+   564
+```
+
+```r
+pie_2 <- ggplot(distribution, aes(x = "", y = Count,  fill = Platform)) + geom_bar(width = 1, stat = "identity")
+pie_2 <- pie_2 + coord_polar("y", start = 0)
+pie_2 <- pie_2 + ggtitle("Percentage of Movie by Streaming Service")
+#pie_2 <- pie_2 + theme(legend.title = element_blank())
+pie_2 <- pie_2 + labs(fill = "Streaming Service")
+pie_2 <- pie_2 + scale_fill_manual(values=c("#34558B","#4EC5A5", "#D0393E", "#FFAF12" ))
+pie_2
+```
+
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
+
+
 ## Pie Chart to show percent of good movies
 
 ```r
@@ -676,7 +779,7 @@ pie <- pie + ggtitle("Number of movies with IMDb above 8.0 on various platforms"
 pie
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-23-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 ## Bar Plots on count and percentage
 
@@ -714,7 +817,7 @@ percent <- percent + labs(fill='IMDb')
 percent
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 
 ```r
@@ -731,6 +834,19 @@ library(highcharter)
 ```r
 # Set highcharter options
 options(highcharter.theme = hc_theme_smpl(tooltip = list(valueDecimals = 2)))
+library(webshot)
+library(plyr)
+```
+
+```
+## 
+## Attaching package: 'plyr'
+```
+
+```
+## The following object is masked from 'package:ggpubr':
+## 
+##     mutate
 ```
 
 
@@ -757,16 +873,40 @@ hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 1) %>% hc_t
     text = "Percentage of Movies by Platforms and IMDb",
     margin = 20,
     align = "center"
+    ) %>% 
+  hc_exporting(
+    enabled = TRUE, # always enabled
+    filename = "custom-file-name"
     )
 
 lst <- list(hc, hc_2)
 htmltools::tagList(lst)
 ```
 
-<!--html_preserve--><div id="htmlwidget-21f40ecd9965ae3ee456" style="width:100%;height:500px;" class="highchart html-widget"></div>
-<script type="application/json" data-for="htmlwidget-21f40ecd9965ae3ee456">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Number of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Count"},"type":"linear","max":12500},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":166,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":34,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":397,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":36,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":2038,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":485,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":5541,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":362,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":1356,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":384,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":6416,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":166,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
-<div id="htmlwidget-c58b727c3bb1755512bd" style="width:100%;height:500px;" class="highchart html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c58b727c3bb1755512bd">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Percentage of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Percent"},"type":"linear","max":1},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":0.047,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":0.038,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":0.032,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":0.064,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":0.572,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":0.537,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":0.449,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":0.642,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":0.381,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":0.425,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":0.519,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":0.294,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-d8b6d668f9bce508efcb" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d8b6d668f9bce508efcb">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Number of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Count"},"type":"linear","max":12500},"credits":{"enabled":false},"exporting":{"enabled":false},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":166,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":34,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":397,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":36,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":2038,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":485,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":5541,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":362,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":1356,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":384,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":6416,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":166,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d5f788f9b70750fbe8cf" style="width:100%;height:500px;" class="highchart html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d5f788f9b70750fbe8cf">{"x":{"hc_opts":{"chart":{"reflow":true},"title":{"text":"Percentage of Movies by Platforms and IMDb","margin":20,"align":"center"},"yAxis":{"title":{"text":"Percent"},"type":"linear","max":1},"credits":{"enabled":false},"exporting":{"enabled":true,"filename":"custom-file-name"},"boost":{"enabled":false},"plotOptions":{"series":{"label":{"enabled":false},"turboThreshold":0,"showInLegend":true},"treemap":{"layoutAlgorithm":"squarified"},"scatter":{"marker":{"symbol":"circle"}}},"series":[{"name":"Above 8.0","data":[{"Platform":"Netflix","IMDb":"Above 8.0","Count":166,"Percent":0.047,"y":0.047,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Above 8.0","Count":34,"Percent":0.038,"y":0.038,"name":"Hulu"},{"Platform":"Prime","IMDb":"Above 8.0","Count":397,"Percent":0.032,"y":0.032,"name":"Prime"},{"Platform":"Disney+","IMDb":"Above 8.0","Count":36,"Percent":0.064,"y":0.064,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"6.0-8.0","data":[{"Platform":"Netflix","IMDb":"6.0-8.0","Count":2038,"Percent":0.572,"y":0.572,"name":"Netflix"},{"Platform":"Hulu","IMDb":"6.0-8.0","Count":485,"Percent":0.537,"y":0.537,"name":"Hulu"},{"Platform":"Prime","IMDb":"6.0-8.0","Count":5541,"Percent":0.449,"y":0.449,"name":"Prime"},{"Platform":"Disney+","IMDb":"6.0-8.0","Count":362,"Percent":0.642,"y":0.642,"name":"Disney+"}],"type":"column","stacking":"normal"},{"name":"Below 6.0","data":[{"Platform":"Netflix","IMDb":"Below 6.0","Count":1356,"Percent":0.381,"y":0.381,"name":"Netflix"},{"Platform":"Hulu","IMDb":"Below 6.0","Count":384,"Percent":0.425,"y":0.425,"name":"Hulu"},{"Platform":"Prime","IMDb":"Below 6.0","Count":6416,"Percent":0.519,"y":0.519,"name":"Prime"},{"Platform":"Disney+","IMDb":"Below 6.0","Count":166,"Percent":0.294,"y":0.294,"name":"Disney+"}],"type":"column","stacking":"normal"}],"xAxis":{"type":"category","title":{"text":"Platform"},"categories":null},"colors":["#0073C2FF","#EFC000FF","#008080"]},"theme":{"colors":["#d35400","#2980b9","#2ecc71","#f1c40f","#2c3e50","#7f8c8d"],"chart":{"style":{"fontFamily":"Roboto","color":"#666666"}},"title":{"align":"left","style":{"fontFamily":"Roboto Condensed","fontWeight":"bold"}},"subtitle":{"align":"left","style":{"fontFamily":"Roboto Condensed"}},"legend":{"align":"right","verticalAlign":"bottom"},"xAxis":{"gridLineWidth":1,"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"yAxis":{"gridLineColor":"#F3F3F3","lineColor":"#F3F3F3","minorGridLineColor":"#F3F3F3","tickColor":"#F3F3F3","tickWidth":1},"plotOptions":{"line":{"marker":{"enabled":false}},"spline":{"marker":{"enabled":false}},"area":{"marker":{"enabled":false}},"areaspline":{"marker":{"enabled":false}},"arearange":{"marker":{"enabled":false}},"bubble":{"maxSize":"10%"}},"tooltip":{"valueDecimals":2}},"conf_opts":{"global":{"Date":null,"VMLRadialGradientURL":"http =//code.highcharts.com/list(version)/gfx/vml-radial-gradient.png","canvasToolsURL":"http =//code.highcharts.com/list(version)/modules/canvas-tools.js","getTimezoneOffset":null,"timezoneOffset":0,"useUTC":true},"lang":{"contextButtonTitle":"Chart context menu","decimalPoint":".","downloadJPEG":"Download JPEG image","downloadPDF":"Download PDF document","downloadPNG":"Download PNG image","downloadSVG":"Download SVG vector image","drillUpText":"Back to {series.name}","invalidDate":null,"loading":"Loading...","months":["January","February","March","April","May","June","July","August","September","October","November","December"],"noData":"No data to display","numericSymbols":["k","M","G","T","P","E"],"printChart":"Print chart","resetZoom":"Reset zoom","resetZoomTitle":"Reset zoom level 1:1","shortMonths":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"thousandsSep":" ","weekdays":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]}},"type":"chart","fonts":["Roboto","Roboto+Condensed"],"debug":false},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+
+
+```r
+#webshot::install_phantomjs()
+```
+
+
+
+```r
+# htmlwidgets::saveWidget(widget = hc, file = "/Users/Luna/Desktop/Movie/the-avocados-movies/Nora/plot.html")
+# 
+# webshot::webshot(url = "plot.html", 
+#                  file = "plot.png")
+# 
+# htmlwidgets::saveWidget(widget = hc_2, file = "/Users/Luna/Desktop/Movie/the-avocados-movies/Nora/plot_2.html")
+# 
+# webshot::webshot(url = "plot_2.html", 
+#                  file = "plot_2.png")
+```
+
 
 ## Word Cloud of Genre of movie above 6.0
 
@@ -829,7 +969,7 @@ text(x=0.5, y=0.3, "Netflix", cex = 1.5, col = "black")
 wordcloud(words = netflix_genre_freq$netflix_genre, freq = netflix_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
 
 ### hulu word cloud
 
@@ -868,7 +1008,7 @@ text(x=0.5, y=0.3, "Hulu", cex = 1.5, col = "black")
 wordcloud(words = hulu_genre_freq$hulu_genre, freq = hulu_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-34-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-43-1.png)<!-- -->
 
 ### prime word cloud
 
@@ -907,7 +1047,7 @@ text(x=0.5, y=0.3, "Prime", cex = 1.5, col = "black")
 wordcloud(words = prime_genre_freq$prime_genre, freq = prime_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-37-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-46-1.png)<!-- -->
 
 
 ### Disney+ word cloud
@@ -947,4 +1087,4 @@ text(x=0.5, y=0.3, "Disney+", cex = 1.5, col = "black")
 wordcloud(words = disney_genre_freq$disney_genre, freq = disney_genre_freq$Freq, min.freq = 1,          colors=brewer.pal(8, "Set1"))
 ```
 
-![](imdb_and_rotten_files/figure-html/unnamed-chunk-40-1.png)<!-- -->
+![](imdb_and_rotten_files/figure-html/unnamed-chunk-49-1.png)<!-- -->

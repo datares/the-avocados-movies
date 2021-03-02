@@ -90,27 +90,47 @@ legend("topleft", c("Mean"), col = c("red"),
 lty = c(2), inset = 0.05 )
 ```
 
+```{r}
+library(ggplot2)
+```
+
+```{r}
+temp_plat <- c(rep("Prime Video", nrow(prime)),
+                  rep("Netflix", nrow(netflix)),
+                  rep("Hulu", nrow(hulu)),
+                  rep("Disney+", nrow(disney)))
+
+temp_imdb <- c(prime$IMDb, netflix$IMDb, hulu$IMDb, disney$IMDb)
+df_imdb <- data.frame("Platform" = temp_plat, "IMDb" = temp_imdb)
+df <- ggplot(df_imdb, aes(x=IMDb,  color = Platform)) +
+  geom_histogram(position="identity", fill="white", alpha = 0)
+df <- df + scale_fill_manual(values=c("#34558B","#4EC5A5", "#D0393E", "#FFAF12" )) + scale_color_manual(values=c("#34558B","#4EC5A5", "#D0393E", "#FFAF12" ))
+df <- df + theme_light()
+df <- df + ggtitle("IMDb Rating")
+df
+```
 
 
 ```{r}
 hist(prime$IMDb, main = 'IMDb Rating',
-     prob = FALSE, density = 20, col = "#FFAF12",
-     ylim = c(0, 2000), xlim=c(0, 10))
+     prob = FALSE,  col = "#FFAF12",
+     ylim = c(0, 2000), xlim=c(0, 10),
+     xlab = "IMDb")
 hist(netflix$IMDb, main = 'IMDb Rating', xlab = 'IMDb',
-     prob = FALSE, density = 30, col = "#D0393E",
+     prob = FALSE,  col = "#D0393E",
      ylim = c(0, 2000), xlim=c(0, 10), add = TRUE)
 hist(hulu$IMDb, main = 'hulu', add = TRUE,
-     prob = FALSE, density = 40, col = "#4EC5A5",)
+     prob = FALSE,  col = "#4EC5A5",)
 hist(disney$IMDb, main = 'disney', add = TRUE,
-     prob = FALSE, density = 50, col = "#34558B",)
+     prob = FALSE,  col = "#34558B",)
 
-legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), density = c(20, 30, 40, 50),
+legend("topleft", c('Prime', "Netflix", "Hulu", 'Disney+'), 
 fill = c("#FFAF12", "#D0393E", "#4EC5A5", "#34558B"), inset = 0.05)
 ```
 
 ```{r}
 hist(prime$Rotten.Tomatoes, main = 'Rotten Tomatoes',
-     prob = FALSE, density = 20, col = "#FFAF12",ylim = c(0, 800))
+     prob = FALSE, density = 20, col = "#FFAF12",ylim = c(0, 800), xlab = "Rotten Tomatoes")
 hist(netflix$Rotten.Tomatoes, main = 'Rotten Tomatoes', xlab = 'Rotten Tomatoes',
      prob = FALSE, density = 30, col = "#D0393E",
      ylim = c(0, 800), add = TRUE)
@@ -131,7 +151,9 @@ mean_imdb <- data.frame("Netflix" = mean(netflix$IMDb, na.rm = TRUE),
                         "Hulu" = mean(hulu$IMDb, na.rm = TRUE),
                         "Prime" = mean(prime$IMDb, na.rm = TRUE),
                         "Disney+" = mean(disney$IMDb, na.rm = TRUE))
+rownames(mean_imdb) <- c("Mean IMDb Ratings")
 mean_imdb
+
 ```
 
 
@@ -148,6 +170,7 @@ prime_disney <- t.test(prime$IMDb, disney$IMDb, alternative = "two.sided", var.e
 t_test <- data.frame("Netflix" = c(NA, netflix_hulu$p.value, netflix_prime$p.value, netflix_disney$p.value), "Hulu" = c(NA, NA, hulu_prime$p.value, hulu_disney$p.value), "Prime" = c(NA, NA, NA, prime_disney$p.value), "Disney+" = c(NA, NA, NA, NA))
 rownames(t_test) <- c("Netflix", "Hulu", "Prime", "Disney+")
 t_test
+
 ```
 
 
@@ -171,8 +194,10 @@ imdb <- rbind(df_netflix, df_hulu, df_prime, df_disney)
 ```{r, message=FALSE}
 p1 <- ggplot(imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p1 <- p1 + ggtitle("IMDb of movies on four platforms")
+p1 <- p1 + ggtitle("IMDb ratings")
 p1 <- p1 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p1 <- p1 + scale_x_discrete(name = "Service")
+p1 <- p1 +labs(fill="Streaming Service")
 ```
 
 
@@ -201,10 +226,16 @@ df_action_prime <- data.frame("Platform" = "Prime", "IMDb" = action_prime$IMDb)
 df_action_disney <- data.frame("Platform" = "Disney+", "IMDb" = action_disney$IMDb)
 df_action_imdb <- rbind(df_action_netflix, df_action_hulu, df_action_prime, df_action_disney)
 
+```
+
+```{r}
+
 p2 <- ggplot(df_action_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p2 <- p2 + ggtitle("IMDb of Action Movies")
+p2 <- p2 + ggtitle("IMDb Ratings of Action Movies")
 p2 <- p2 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p2 <- p2 + scale_x_discrete(name = "Service")
+p2 <- p2 + labs(fill="Streaming Service")
 ```
 
 ```{r}
@@ -232,10 +263,15 @@ df_scifi_prime <- data.frame("Platform" = "Prime", "IMDb" = scifi_prime$IMDb)
 df_scifi_disney <- data.frame("Platform" = "Disney+", "IMDb" = scifi_disney$IMDb)
 df_scifi_imdb <- rbind(df_scifi_netflix, df_scifi_hulu, df_scifi_prime, df_scifi_disney)
 
+```
+
+```{r}
 p3 <- ggplot(df_scifi_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p3 <- p3 + ggtitle("IMDb of Sci-Fi")
+p3 <- p3 + ggtitle("IMDb Ratings of Sci-Fi")
 p3 <- p3 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p3 <- p3 + scale_x_discrete(name = "Service")
+p3 <- p3 +labs(fill="Streaming Service")
 ```
 
 
@@ -263,11 +299,15 @@ df_comedy_hulu <- data.frame("Platform" = "Hulu", "IMDb" = comedy_hulu$IMDb)
 df_comedy_prime <- data.frame("Platform" = "Prime", "IMDb" = comedy_prime$IMDb)
 df_comedy_disney <- data.frame("Platform" = "Disney+", "IMDb" = comedy_disney$IMDb)
 df_comedy_imdb <- rbind(df_comedy_netflix, df_comedy_hulu, df_comedy_prime, df_comedy_disney)
+```
 
+```{r}
 p4 <- ggplot(df_comedy_imdb, aes(x=Platform, y=IMDb, fill = Platform)) + 
   geom_boxplot()
-p4 <- p4 + ggtitle("IMDb of Comedy")
+p4 <- p4 + ggtitle("IMDb Ratings of Comedy")
 p4 <- p4 + scale_fill_manual(values=c("#D0393E", "#4EC5A5", "#FFAF12", "#34558B"))
+p4 <- p4 + scale_x_discrete(name = "Service")
+p4 <- p4 +labs(fill="Streaming Service")
 ```
 
 
@@ -477,6 +517,26 @@ venn <- cbind(platforms, venn)
 venn <- venn[1:14,]
 ```
 
+```{r}
+venn
+```
+
+## Pie chart of percentage of movies by streaming service
+
+```{r}
+distribution <- data.frame(Platform = c("Netflix", "Hulu", "Prime Video", "Disney+"),
+                           Count = c(nrow(netflix), nrow(hulu), nrow(prime), nrow(disney)))
+distribution
+pie_2 <- ggplot(distribution, aes(x = "", y = Count,  fill = Platform)) + geom_bar(width = 1, stat = "identity")
+pie_2 <- pie_2 + coord_polar("y", start = 0)
+pie_2 <- pie_2 + ggtitle("Percentage of Movie by Streaming Service")
+#pie_2 <- pie_2 + theme(legend.title = element_blank())
+pie_2 <- pie_2 + labs(fill = "Streaming Service")
+pie_2 <- pie_2 + scale_fill_manual(values=c("#34558B","#4EC5A5", "#D0393E", "#FFAF12" ))
+pie_2
+```
+
+
 ## Pie Chart to show percent of good movies
 ```{r}
 
@@ -527,6 +587,8 @@ library(rlang)
 library(highcharter) 
 # Set highcharter options
 options(highcharter.theme = hc_theme_smpl(tooltip = list(valueDecimals = 2)))
+library(webshot)
+library(plyr)
 ```
 
 
@@ -552,11 +614,33 @@ hc_colors(c("#0073C2FF", "#EFC000FF", "#008080")) %>% hc_yAxis(max = 1) %>% hc_t
     text = "Percentage of Movies by Platforms and IMDb",
     margin = 20,
     align = "center"
+    ) %>% 
+  hc_exporting(
+    enabled = TRUE, # always enabled
+    filename = "custom-file-name"
     )
 
 lst <- list(hc, hc_2)
 htmltools::tagList(lst)
 ```
+
+```{r}
+#webshot::install_phantomjs()
+```
+
+
+```{r}
+# htmlwidgets::saveWidget(widget = hc, file = "/Users/Luna/Desktop/Movie/the-avocados-movies/Nora/plot.html")
+# 
+# webshot::webshot(url = "plot.html", 
+#                  file = "plot.png")
+# 
+# htmlwidgets::saveWidget(widget = hc_2, file = "/Users/Luna/Desktop/Movie/the-avocados-movies/Nora/plot_2.html")
+# 
+# webshot::webshot(url = "plot_2.html", 
+#                  file = "plot_2.png")
+```
+
 
 ## Word Cloud of Genre of movie above 6.0
 
