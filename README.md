@@ -105,6 +105,7 @@ More detailed findings can be found in our Medium article.
 
 ### Category #3: Amount of Content
 Datasets used: #1, #2
+
 Objective: How much content is there on each streaming service? Is the selection available an important factor to consider when choosing a streaming service?
 
 For avid movie watchers, the amount of content available is key to exploring new entertainment and stepping outside of one’s comfort zone. Looking at the selection of movies and TV shows offered on streaming services is something that users want to know before deciding on a service. 
