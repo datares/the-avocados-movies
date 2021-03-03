@@ -104,10 +104,16 @@ wordcloud(words = netflix_genre_freq$netflix_genre, freq = netflix_genre_freq$Fr
 More detailed findings can be found in our Medium article.
 
 ### Category #3: Amount of Content
-Datasets used: #1
+Datasets used: #1, #2
+Objective: How much content is there on each streaming service? Is the selection available an important factor to consider when choosing a streaming service?
 
-...
-We also examined the amount of content per age group across the four platforms. From there, we concluded that Prime Video contains comparatively more 18+ and 7+ movies than other three platforms, partially due to the amount of content it has. However, Prime Video only has a slightly advantages for 13+ and movies for all ages than platform with the second most corresponding content --- Disney+. Hulu has the least content, and Netflix has decent amount of content for 7+ and 13+, although falls short in overall content 
+For avid movie watchers, the amount of content available is key to exploring new entertainment and stepping outside of one’s comfort zone. Looking at the selection of movies and TV shows offered on streaming services is something that users want to know before deciding on a service. 
+
+Using the two Kaggle datasets, we were able to extract and separate data on how many movie and TV show titles were available on each streaming service as of 2020. After compiling this data, it was easy to compare the amount of content between streaming services by looking at the number of titles available across the four different services. 
+
+We noticed that Prime Video took the lead by a large margin in terms of movie content, and it also had the most TV shows although the margins did not vary as much between Prime Video, Netflix, and Hulu. The trends for movies and TV shows are consistent for the four streaming services because the order for greatest to least amount of content is: Prime Video, Netflix, Hulu, and Disney+.
+
+We also examined the amount of content per age group across the four platforms. From there, we concluded that Prime Video contains comparatively more 18+ and 7+ movies than other three platforms, partially due to the amount of content it has. However, Prime Video only has a slightly advantages for 13+ and movies for all ages than platform with the second most corresponding content --- Disney+. Hulu has the least content, and Netflix has decent amount of content for 7+ and 13+, although falls short in overall content. 
 ...
 ### Category #4: Exclusive Content
 Datasets used: #1,6,4,6,7,8
