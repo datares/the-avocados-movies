@@ -113,6 +113,20 @@ Using the two Kaggle datasets, we were able to extract and separate data on how 
 
 We noticed that Prime Video took the lead by a large margin in terms of movie content, and it also had the most TV shows although the margins did not vary as much between Prime Video, Netflix, and Hulu. The trends for movies and TV shows are consistent for the four streaming services because the order for greatest to least amount of content is: Prime Video, Netflix, Hulu, and Disney+.
 
+In R, we created dataframes and visualizations with the relevant data for movies and TV shows across all four streaming services:
+```r
+total <- merge(amtofmovies, amtofshows, by="service")
+ 
+streaming <- c(rep("Netflix" , 2) , rep("Hulu" , 2) , rep("Disney+" , 2) , rep("Amazon Prime" , 2) )
+condition <- rep(c("movies", "shows") , 4)
+value <- c(3560, 1931, 903, 1754, 564, 180, 12354, 2144)
+data <- data.frame(streaming,condition,value)
+ 
+ggplot(data, aes(fill=condition, y=value, x=streaming)) + 
+    geom_bar(position="dodge", stat="identity") + scale_fill_manual(values=c("#b392ac", "#e8c2ca"))+ggtitle("Movies and Shows per streaming service") +
+  xlab("Streaming Service") + ylab("Number of titles")
+  ```
+
 We also examined the amount of content per age group across the four platforms. From there, we concluded that Prime Video contains comparatively more 18+ and 7+ movies than other three platforms, partially due to the amount of content it has. However, Prime Video only has a slightly advantages for 13+ and movies for all ages than platform with the second most corresponding content --- Disney+. Hulu has the least content, and Netflix has decent amount of content for 7+ and 13+, although falls short in overall content. 
 ...
 ### Category #4: Exclusive Content
