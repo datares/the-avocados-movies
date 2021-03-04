@@ -173,7 +173,7 @@ After collecting all the movies and TV shows that each subscription service offe
 | 15 | Monsters, Inc.                                         | 2001 | 8    | 779728     | Disney  |
 
 #### This is an exameple of the top 15 Netflix TV Shows
-|    | Title            | Year | IMDb | imdb_votes | service |
+|    | Title                                                  | Year | IMDb | imdb_votes | service |
 | -- | ------------------------------------------------------ | ---- | ---- | ---------- | ------- |
 | 1  | Breaking Bad     | 2008 | 9.5  | 1467953    | Netflix |
 | 2  | The Walking Dead | 2010 | 8.2  | 854372     | Netflix |
