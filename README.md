@@ -190,7 +190,6 @@ After collecting all the movies and TV shows that each subscription service offe
 | 13 | The Flash                                              | 2014 | 7.7  | 305509     | Netflix |
 | 14 | Family Guy                                             | 1999 | 8.1  | 304819     | Netflix |
 | 15 | The Witcher                                            | 2019 | 8.3  | 300996     | Netflix |
-|    |
 
 ## Overall Results & Conclusion
 
