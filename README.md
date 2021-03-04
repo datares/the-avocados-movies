@@ -175,21 +175,21 @@ After collecting all the movies and TV shows that each subscription service offe
 #### This is an exameple of the top 15 Netflix TV Shows
 |    | Title                                                  | Year | IMDb | imdb_votes | service |
 | -- | ------------------------------------------------------ | ---- | ---- | ---------- | ------- |
-| 1  | Breaking Bad     | 2008 | 9.5  | 1467953    | Netflix |
-| 2  | The Walking Dead | 2010 | 8.2  | 854372     | Netflix |
-| 3  | Stranger Things  | 2016 | 8.8  | 824251     | Netflix |
-| 4  | Sherlock         | 2010 | 9.1  | 808347     | Netflix |
-| 5  | Dexter           | 2006 | 8.6  | 646903     | Netflix |
-| 6  | House of Cards   | 2013 | 8.7  | 467258     | Netflix |
-| 7  | Black Mirror     | 2011 | 8.8  | 445446     | Netflix |
-| 8  | Arrow            | 2012 | 7.6  | 407822     | Netflix |
-| 9  | Supernatural     | 2005 | 8.4  | 393006     | Netflix |
-| 10 | Narcos           | 2015 | 8.8  | 358250     | Netflix |
-| 11 | Peaky Blinders   | 2013 | 8.8  | 350120     | Netflix |
-| 12 | Better Call Saul | 2015 | 8.7  | 324611     | Netflix |
-| 13 | The Flash        | 2014 | 7.7  | 305509     | Netflix |
-| 14 | Family Guy       | 1999 | 8.1  | 304819     | Netflix |
-| 15 | The Witcher      | 2019 | 8.3  | 300996     | Netflix |
+| 1  | Breaking Bad                                           | 2008 | 9.5  | 1467953    | Netflix |
+| 2  | The Walking Dead                                       | 2010 | 8.2  | 854372     | Netflix |
+| 3  | Stranger Things                                        | 2016 | 8.8  | 824251     | Netflix |
+| 4  | Sherlock                                               | 2010 | 9.1  | 808347     | Netflix |
+| 5  | Dexter                                                 | 2006 | 8.6  | 646903     | Netflix |
+| 6  | House of Cards                                         | 2013 | 8.7  | 467258     | Netflix |
+| 7  | Black Mirror                                           | 2011 | 8.8  | 445446     | Netflix |
+| 8  | Arrow                                                  | 2012 | 7.6  | 407822     | Netflix |
+| 9  | Supernatural                                           | 2005 | 8.4  | 393006     | Netflix |
+| 10 | Narcos                                                 | 2015 | 8.8  | 358250     | Netflix |
+| 11 | Peaky Blinders                                         | 2013 | 8.8  | 350120     | Netflix |
+| 12 | Better Call Saul                                       | 2015 | 8.7  | 324611     | Netflix |
+| 13 | The Flash                                              | 2014 | 7.7  | 305509     | Netflix |
+| 14 | Family Guy                                             | 1999 | 8.1  | 304819     | Netflix |
+| 15 | The Witcher                                            | 2019 | 8.3  | 300996     | Netflix |
 |    |
 
 ## Overall Results & Conclusion
