@@ -174,7 +174,7 @@ After collecting all the movies and TV shows that each subscription service offe
 
 #### This is an exameple of the top 15 Netflix TV Shows
 |    | Title            | Year | IMDb | imdb_votes | service |
-| -- | ---------------- | ---- | ---- | ---------- | ------- |
+| -- | ------------------------------------------------------ | ---- | ---- | ---------- | ------- |
 | 1  | Breaking Bad     | 2008 | 9.5  | 1467953    | Netflix |
 | 2  | The Walking Dead | 2010 | 8.2  | 854372     | Netflix |
 | 3  | Stranger Things  | 2016 | 8.8  | 824251     | Netflix |
@@ -193,12 +193,18 @@ After collecting all the movies and TV shows that each subscription service offe
 |    |
 
 ## Overall Results & Conclusion
+
+So now that you’ve read through all of that, you’re probably wondering what the final ranking is for each of the streaming services. We compiled the rankings together across each of the four categories, diversity, amount of content, IMDb ratings, and exclusive content into the table below and our winner is……...
+
 | Placing | Diversity | Rating | Amount of Content | Exclusive Content | Overall |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | *1st Place*  | Hulu | Disney+ | Prime Video | Netflix | __Netflix__ 🎉 🟥|
 | *2nd Place*  | Netflix | Netflix | Netflix | Disney+ | __Prime Video__/__Hulu__/__Disney+__ 🟧🟩🟦|
 | *3rd Place*  | Prime Video | Hulu | Hulu | Prime Video |-|
 | *4th Place*  | Disney+  | Prime Video | Disney+ | Hulu | -|
+
+Netflix! Based on our data analysis and visualizations, our team determined that Netflix was the best overall streaming service, ranking first in terms of exclusive content and second in diversity, ratings, and the amount of content. Surprisingly, the other three streaming services, Prime Video, Hulu, and Disney+ all tied for second place, with their respective placings found above. So the next time you’re unsure of what to watch, you can’t go wrong with picking Netflix!
+
 
 
 
