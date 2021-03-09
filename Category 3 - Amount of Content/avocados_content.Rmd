@@ -87,3 +87,14 @@ ggplot(data, aes(fill=condition, y=value, x=streaming)) +
   xlab("Streaming Service") + ylab("Number of titles")
 
 ```
+```{r}
+## Create Pie Charts for each streaming service
+library(ggplot2)
+library(scales)
+
+ ## Amount of shows
+ggplot(data = amtofshows, aes(x=2, y=numofshows, fill=service)) + geom_bar(stat="identity", width=1) + coord_polar("y", start=0) + theme_void() + scale_fill_manual(values=c("#FFAF12", "#34558B", "#4EC5A5", "#D0393E")) + xlim(0.5, 2.5) + ggtitle("Amount of shows per streaming service") + geom_text(aes(label = paste(round(numofshows / sum(numofshows) * 100, 1), "%")), color = "white",position = position_stack(vjust = 0.5))
+
+## Amount of movies
+ggplot(data = amtofmovies, aes(x=2, y=numofmovies, fill=service)) + geom_bar(stat="identity", width=1) + coord_polar("y", start=0) + theme_void() + scale_fill_manual(values=c("#FFAF12", "#34558B", "#4EC5A5", "#D0393E")) + xlim(0.5, 2.5) + ggtitle("Amount of movies per streaming service") + geom_text(aes(label = paste(round(numofmovies / sum(numofmovies) * 100, 1), "%")), color = "white",position = position_stack(vjust = 0.5))
+```
